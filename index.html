@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MZForge — set up a Minecraft server the easy way</title>
+<meta name="description" content="Configure a Minecraft server in your browser and download a ready-to-run pack. Plugins from Modrinth, a public address built in, no file renaming." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav"><div class="wrap nav-in">
+  <a class="brand" href="index.html">
+    <span class="mark"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 1l8 4.5v9L10 19l-8-4.5v-9z" fill="none" stroke="#f6a623" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 1v18M2 5.5l8 4.5 8-4.5" fill="none" stroke="#56b6ff" stroke-width="1.1" stroke-linejoin="round" opacity=".8"/></svg></span>
+    <b>MZ<span>Forge</span></b>
+  </a>
+  <div class="nav-actions">
+    <button class="toggle" id="themeToggle" type="button"><span class="dot"></span><span id="themeLabel">Night</span></button>
+    <a class="btn ghost sm" href="login.html" id="navLogin">Sign in</a>
+    <a class="btn primary sm" href="register.html" id="navStart">Get started</a>
+  </div>
+</div></header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="kick reveal">NO RENAMING · NO EULA EDITING · JUST RUN IT</span>
+    <h1 class="reveal d1">Set up a <em>Minecraft server</em> without the usual hassle.</h1>
+    <p class="sub reveal d2">Pick your settings here, download one folder, double-click to start. Plugins and mods come pre-installed, and your friends get an address they can actually join.</p>
+    <div class="hero-cta reveal d3">
+      <a class="btn primary big" href="register.html">Build my server <span class="arrow">&rarr;</span></a>
+      <a class="btn ghost big" href="#preview">See it first</a>
+    </div>
+    <div class="chips reveal d4">
+      <span class="chip"><span class="tick"></span> Plugins from Modrinth</span>
+      <span class="chip"><span class="tick"></span> Public address built in</span>
+      <span class="chip"><span class="tick"></span> Paper · Fabric · NeoForge</span>
+      <span class="chip"><span class="tick"></span> Free, no card</span>
+    </div>
+  </div>
+  <svg class="horizon" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="#0a0f1f" d="M0,120 L0,70 L80,70 L80,55 L180,55 L180,72 L300,72 L300,48 L420,48 L420,64 L520,64 L520,40 L640,40 L640,60 L760,60 L760,52 L880,52 L880,68 L1000,68 L1000,46 L1120,46 L1120,66 L1200,66 L1200,120 Z"/></svg>
+</div>
+
+<!-- LIVE PREVIEW SHOWCASE -->
+<div class="wrap" id="preview" style="padding-top:26px">
+  <div class="stage reveal">
+    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px">
+      <h2 style="font-family:var(--fd);font-size:24px;font-weight:800;margin:0">Try the preview</h2>
+      <span class="muted" style="font-size:14px">Type below — this is the same renderer the dashboard uses.</span>
+    </div>
+
+    <div class="row" style="margin-top:18px">
+      <div>
+        <div class="fld">
+          <label for="pvMotd">Server name (MOTD)</label>
+          <input id="pvMotd" type="text" maxlength="45" value="§l§bOcean SMP" />
+          <span class="help">Colour codes work: <code>§a</code> green, <code>§l</code> bold, <code>§o</code> italic.</span>
+        </div>
+        <div class="fld">
+          <label for="pvMotd2">Second line</label>
+          <input id="pvMotd2" type="text" maxlength="45" value="§7Season 3 · now open" />
+        </div>
+        <div class="fld">
+          <label>Quick colours</label>
+          <div class="swatches" id="pvSwatches"></div>
+        </div>
+        <div class="row">
+          <div class="fld">
+            <label for="pvPlayers">Max players</label>
+            <input id="pvPlayers" type="number" min="1" max="500" value="20" />
+          </div>
+          <div class="fld">
+            <label for="pvSw">Software</label>
+            <select id="pvSw">
+              <option value="paper">Paper</option>
+              <option value="fabric">Fabric</option>
+              <option value="neoforge">NeoForge</option>
+              <option value="vanilla">Vanilla</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="muted" style="font-size:12px;font-family:var(--fm);letter-spacing:1px;margin:0 0 12px">HOW IT LOOKS IN THE SERVER LIST</p>
+        <div class="mc-list">
+          <div class="mc-row">
+            <div class="mc-icon" id="pvIcon">
+              <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" fill="#3a3a4e"/><rect width="30" height="11" fill="#5fd35f"/><rect y="11" width="30" height="3" fill="#3fae3f"/></svg>
+            </div>
+            <div class="mc-mid">
+              <div class="mc-name" id="pvName">Ocean SMP</div>
+              <div class="mc-motd" id="pvLine2">Season 3 · now open</div>
+            </div>
+            <div class="mc-right">
+              <div class="bars"><i style="height:4px"></i><i style="height:7px"></i><i style="height:10px"></i><i style="height:13px"></i><i style="height:13px"></i></div>
+              <div class="mc-players" id="pvCount">0 / 20</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;padding:16px">
+          <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Software</span><b id="pvSwOut">Paper</b></div>
+          <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Version</span><b>26.1.2</b></div>
+          <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Public address</span><b class="muted" style="font-family:var(--fm);font-size:12px">via playit.gg</b></div>
+        </div>
+
+        <a class="btn primary block" href="register.html" style="margin-top:14px">Build this for real <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ad"><span class="lbl">Advertisement</span><p class="note">Ad space — keeps MZForge free. Paste your ad code here.</p></div>
+
+<div class="wrap how">
+  <div class="how-card reveal"><div class="how-n">1</div><h3>Configure it</h3><p>Software, version, memory, look and add-ons — in a few friendly steps with sensible defaults already set.</p></div>
+  <div class="how-card reveal d1"><div class="how-n">2</div><h3>Download the pack</h3><p>One zip with your config, your plugins already inside, and a start file that handles Java and the server download.</p></div>
+  <div class="how-card reveal d2"><div class="how-n">3</div><h3>Invite friends</h3><p>start.bat quietly brings up a public address, so friends can join from anywhere without touching your router.</p></div>
+</div>
+
+<div class="wrap" style="text-align:center;padding:6px 0 60px">
+  <a class="btn primary big reveal" href="register.html">Create your free account <span class="arrow">&rarr;</span></a>
+</div>
+
+<footer class="foot"><div class="wrap">
+  <a class="brand" href="index.html"><span class="mark"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 1l8 4.5v9L10 19l-8-4.5v-9z" fill="none" stroke="#f6a623" stroke-width="1.4" stroke-linejoin="round"/></svg></span><b>MZ<span>Forge</span></b></a>
+  <small>Generates configs and helper scripts only — never Minecraft binaries. Server files come from PaperMC, FabricMC and NeoForged; add-ons come from Modrinth. Not affiliated with Mojang Studios or Microsoft.</small>
+</div></footer>
+
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Signed-in visitors get a route straight to the panel.
+  if (Auth.isSignedIn()) {
+    const u = Auth.current();
+    $('#navLogin').textContent = 'Dashboard';
+    $('#navLogin').href = 'dashboard.html';
+    $('#navStart').textContent = `Open ${u.username}'s panel`;
+    $('#navStart').href = 'dashboard.html';
+  }
+
+  // Reveal on load.
+  requestAnimationFrame(() => $$('.reveal').forEach(el => el.classList.add('in')));
+
+  // ---- live preview ----
+  const swatches = [['§f','#ffffff'],['§a','#55ff55'],['§e','#ffff55'],['§6','#ffaa00'],
+                    ['§b','#55ffff'],['§d','#ff55ff'],['§c','#ff5555'],['§9','#5555ff'],['§7','#aaaaaa']];
+  const wrap = $('#pvSwatches');
+  swatches.forEach(([code, hex]) => {
+    const el = document.createElement('span');
+    el.className = 'sw';
+    el.style.background = hex;
+    el.title = `Insert ${code}`;
+    el.addEventListener('click', () => {
+      const input = $('#pvMotd');
+      input.value = code + input.value.replace(/^(§[0-9a-fk-or])+/i, '');
+      paint();
+    });
+    wrap.appendChild(el);
+  });
+
+  function paint() {
+    $('#pvName').innerHTML = renderMotd($('#pvMotd').value || 'My Server');
+    $('#pvLine2').innerHTML = renderMotd($('#pvMotd2').value || '');
+    const max = clampInt($('#pvPlayers').value, 1, 500, 20);
+    $('#pvCount').textContent = `0 / ${max}`;
+    $('#pvSwOut').textContent = SWNAME[$('#pvSw').value];
+  }
+  ['pvMotd','pvMotd2','pvPlayers','pvSw'].forEach(id => $('#'+id).addEventListener('input', paint));
+  paint();
+});
+</script>
+</body>
+</html>

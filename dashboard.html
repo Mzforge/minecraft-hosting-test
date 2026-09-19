@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dashboard · MZForge</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+
+<div class="shell" id="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <nav class="sidebar" id="sidebar">
+    <a class="brand" href="index.html">
+      <span class="mark"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 1l8 4.5v9L10 19l-8-4.5v-9z" fill="none" stroke="#f6a623" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 1v18M2 5.5l8 4.5 8-4.5" fill="none" stroke="#56b6ff" stroke-width="1.1" stroke-linejoin="round" opacity=".8"/></svg></span>
+      <b>MZ<span>Forge</span></b>
+    </a>
+
+    <a class="navlink active" data-view="overview">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      <span>Overview</span>
+    </a>
+    <a class="navlink" data-view="console">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 9l3 3-3 3M13 15h5"/></svg>
+      <span>Console</span>
+    </a>
+    <a class="navlink" data-view="software">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg>
+      <span>Software</span>
+    </a>
+    <a class="navlink" data-view="addons">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10V7l-4-4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M15 15h6M18 12v6"/></svg>
+      <span>Plugins &amp; mods</span>
+    </a>
+    <a class="navlink" data-view="options">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0c.14.35.4.65.73.85"/></svg>
+      <span>Server options</span>
+    </a>
+    <a class="navlink" data-view="files">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      <span>Import config</span>
+    </a>
+    <a class="navlink" data-view="deploy">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>
+      <span>Download pack</span>
+    </a>
+
+    <div class="side-foot">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 6px">
+        <div style="width:32px;height:32px;border-radius:99px;background:linear-gradient(180deg,var(--amber),var(--amber2));display:grid;place-items:center;font-weight:800;color:var(--ink);font-family:var(--fd)" id="avatar">M</div>
+        <div style="min-width:0;flex:1">
+          <div style="font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="userName">—</div>
+          <button id="signOut" style="background:none;border:0;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Sign out</button>
+        </div>
+      </div>
+      <button class="toggle" id="themeToggle" type="button" style="width:100%;justify-content:center;margin-top:6px"><span class="dot"></span><span id="themeLabel">Night</span></button>
+    </div>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <main class="panel-main">
+
+    <div class="panel-top">
+      <button class="icon-btn" id="burger" aria-label="Toggle sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div>
+        <h1 style="font-family:var(--fd);font-size:22px;font-weight:800;margin:0;line-height:1.2" id="crumb">Overview</h1>
+        <p class="muted" style="margin:0;font-size:13.5px" id="crumbSub">Everything about your server at a glance.</p>
+      </div>
+    </div>
+
+    <!-- status header -->
+    <div class="status-head">
+      <span class="badge offline" id="statusBadge"><span class="bdot"></span><span id="statusText">offline</span></span>
+      <div style="min-width:0">
+        <div style="font-weight:800;font-family:var(--fd);font-size:17px" id="headName">my-server</div>
+        <div class="muted" style="font-size:13px" id="headMeta">Paper 26.1.2 · 4 GB</div>
+      </div>
+      <div class="power">
+        <button class="btn primary sm" id="btnStart">Start</button>
+        <button class="btn ghost sm" id="btnRestart">Restart</button>
+        <button class="btn ghost sm" id="btnStop">Stop</button>
+        <button class="btn danger sm" id="btnKill">Kill</button>
+      </div>
+    </div>
+
+    <!-- ===== OVERVIEW ===== -->
+    <section class="view show" data-view="overview">
+      <div class="metrics">
+        <div class="metric">
+          <div class="mlabel">Memory</div>
+          <div class="mval" id="mRam">0.0<small> / 4 GB</small></div>
+          <svg class="spark" id="sparkRam" viewBox="0 0 100 34" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="metric">
+          <div class="mlabel">CPU load</div>
+          <div class="mval" id="mCpu">0<small>%</small></div>
+          <svg class="spark" id="sparkCpu" viewBox="0 0 100 34" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="metric">
+          <div class="mlabel">Storage</div>
+          <div class="mval" id="mDisk">0.4<small> GB</small></div>
+          <svg class="spark" id="sparkDisk" viewBox="0 0 100 34" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="metric">
+          <div class="mlabel">Players</div>
+          <div class="mval" id="mPlayers">0<small> / 10</small></div>
+          <svg class="spark" id="sparkPlayers" viewBox="0 0 100 34" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+
+      <div class="addr-box">
+        <div style="min-width:0">
+          <div class="muted" style="font-size:12px;font-family:var(--fm);letter-spacing:1px">SERVER ADDRESS</div>
+          <code id="addrText">start the server to get your address</code>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:9px;flex-wrap:wrap">
+          <button class="btn ghost sm" id="copyAddr">Copy</button>
+          <button class="btn ghost sm" id="openDomain">Use my own domain</button>
+        </div>
+      </div>
+
+      <div class="row" style="align-items:start">
+        <div class="card">
+          <h3>Live preview</h3>
+          <p class="muted" style="margin:0 0 14px;font-size:13.5px">Exactly how your server appears in the multiplayer list.</p>
+          <div class="mc-list">
+            <div class="mc-row">
+              <div class="mc-icon" id="ovIcon">
+                <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" fill="#3a3a4e"/><rect width="30" height="11" fill="#5fd35f"/><rect y="11" width="30" height="3" fill="#3fae3f"/></svg>
+              </div>
+              <div class="mc-mid">
+                <div class="mc-name" id="ovName">my-server</div>
+                <div class="mc-motd" id="ovMotd"></div>
+              </div>
+              <div class="mc-right">
+                <div class="bars"><i style="height:4px"></i><i style="height:7px"></i><i style="height:10px"></i><i style="height:13px"></i><i style="height:13px"></i></div>
+                <div class="mc-players" id="ovCount">0 / 10</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px">
+            <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line-soft)"><span class="muted">Software</span><b id="ovSw">Paper</b></div>
+            <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line-soft)"><span class="muted">Version</span><b id="ovVer">26.1.2</b></div>
+            <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line-soft)"><span class="muted">Mode</span><b id="ovMode">Survival · Normal</b></div>
+            <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Add-ons</span><b id="ovAddons">0</b></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Appearance</h3>
+          <p class="muted" style="margin:0 0 14px;font-size:13.5px">Colour codes render live on the left.</p>
+          <div class="fld">
+            <label for="fName">Server name (MOTD)</label>
+            <input id="fName" type="text" maxlength="45" />
+          </div>
+          <div class="fld">
+            <label for="fMotd2">Second line</label>
+            <input id="fMotd2" type="text" maxlength="45" />
+          </div>
+          <div class="fld">
+            <label>Colour</label>
+            <div class="swatches" id="ovSwatches"></div>
+          </div>
+          <div class="fld">
+            <label>Style</label>
+            <div class="pills">
+              <span class="pill" id="pBold">Bold</span>
+              <span class="pill" id="pItalic">Italic</span>
+            </div>
+          </div>
+          <div class="fld">
+            <label>Server icon</label>
+            <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+              <div class="mc-icon" id="iconPrev" style="width:64px;height:64px;border-radius:10px"></div>
+              <div>
+                <input id="iconFile" type="file" accept="image/*" hidden />
+                <button class="btn ghost sm" id="iconBtn" type="button">Upload image</button>
+                <button class="btn ghost sm" id="iconClear" type="button" style="display:none">Remove</button>
+                <div class="help" style="margin-top:6px">Cropped to the 64×64 PNG Minecraft uses.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONSOLE ===== -->
+    <section class="view" data-view="console">
+      <div class="term">
+        <div class="term-bar">
+          <span class="bdot" id="termDot" style="width:8px;height:8px;border-radius:99px;background:var(--muted)"></span>
+          <span class="muted" style="font-family:var(--fm);font-size:12px" id="termName">my-server</span>
+          <span style="margin-left:auto" class="muted" id="termClear"><button class="btn ghost sm" style="padding:5px 11px;font-size:12.5px">Clear</button></span>
+        </div>
+        <div class="term-body" id="termBody">
+          <p class="t-dim">Console is idle. Press Start to boot the server.</p>
+        </div>
+        <div class="term-in">
+          <span class="t-warn" style="font-family:var(--fm)">&gt;</span>
+          <input id="cmdInput" placeholder="Type a command, e.g. say hello  (then press Enter)" autocomplete="off" />
+        </div>
+      </div>
+      <div class="callout" style="margin-top:16px">
+        <strong>What this console is.</strong> This panel simulates your server so you can see what the output looks like. The real console appears in the window that opens when you run <code>start.bat</code> from your downloaded pack.
+      </div>
+    </section>
+
+    <!-- ===== SOFTWARE ===== -->
+    <section class="view" data-view="software">
+      <div class="card">
+        <h3>Server software</h3>
+        <p class="muted" style="margin:0 0 16px;font-size:13.5px">Not sure? Paper is the best all-rounder and supports plugins.</p>
+        <div class="addgrid" id="swGrid"></div>
+        <div class="row" style="margin-top:18px">
+          <div class="fld">
+            <label for="fVer">Minecraft version</label>
+            <select id="fVer">
+              <option value="26.2">26.2 — newest</option>
+              <option value="26.1.2" selected>26.1.2 — recommended</option>
+              <option value="26.1.1">26.1.1</option>
+              <option value="26.1">26.1</option>
+              <option value="1.21.11">1.21.11</option>
+              <option value="1.21.4">1.21.4</option>
+              <option value="1.20.6">1.20.6</option>
+              <option value="1.20.1">1.20.1</option>
+            </select>
+            <span class="help" id="verHint"></span>
+          </div>
+          <div class="fld">
+            <label>Memory</label>
+            <div class="pills" id="ramPills">
+              <span class="pill" data-ram="2">2 GB</span>
+              <span class="pill sel" data-ram="4">4 GB</span>
+              <span class="pill" data-ram="6">6 GB</span>
+              <span class="pill" data-ram="8">8 GB</span>
+              <span class="pill" data-ram="custom">Custom…</span>
+            </div>
+            <div id="ramCustomRow" style="display:none;margin-top:10px;max-width:200px">
+              <input id="ramCustom" type="number" min="1" max="64" value="16" />
+            </div>
+            <span class="help">Keep this under about 60% of your computer's total RAM.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ADD-ONS ===== -->
+    <section class="view" data-view="addons">
+      <div class="card">
+        <h3 id="addonTitle">Plugins &amp; mods</h3>
+        <p class="muted" style="margin:0 0 16px;font-size:13.5px" id="addonLead">Tick the popular ones, or search Modrinth for anything else. Everything you pick is downloaded straight into your pack.</p>
+
+        <div id="popularWrap">
+          <label style="font-weight:800;font-size:14px;display:block;margin-bottom:8px">Popular picks</label>
+          <div class="addgrid" id="addonList"></div>
+        </div>
+
+        <div class="fld" style="margin-top:18px" id="searchWrap">
+          <label for="searchBox">Search Modrinth</label>
+          <input id="searchBox" type="text" placeholder="Try: tpa, economy, claims, shops, vehicles…" autocomplete="off" />
+          <span class="help">Live results. Anything you add is bundled into the download.</span>
+          <div class="results" id="searchResults"></div>
+        </div>
+
+        <div class="fld">
+          <label>Your add-ons (<span id="selCount">0</span>)</label>
+          <div class="chips2" id="selectedChips"><span class="help">Nothing selected yet.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== OPTIONS ===== -->
+    <section class="view" data-view="options">
+      <div class="card">
+        <h3>Server options</h3>
+        <p class="muted" style="margin:0 0 16px;font-size:13.5px">These write straight into <code>server.properties</code>.</p>
+        <div class="row">
+          <div class="fld"><label for="fMax">Max players</label><input id="fMax" type="number" min="1" max="500" /></div>
+          <div class="fld"><label for="fPort">Port</label><input id="fPort" type="number" min="1" max="65535" /><span class="help">Leave as 25565 unless you have a reason.</span></div>
+        </div>
+        <div class="row">
+          <div class="fld"><label for="fGamemode">Gamemode</label>
+            <select id="fGamemode"><option value="survival">Survival</option><option value="creative">Creative</option><option value="adventure">Adventure</option><option value="spectator">Spectator</option></select>
+          </div>
+          <div class="fld"><label for="fDifficulty">Difficulty</label>
+            <select id="fDifficulty"><option value="peaceful">Peaceful</option><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="fld"><label for="fWhitelist">Who can join</label>
+            <select id="fWhitelist"><option value="false">Anyone</option><option value="true">Whitelist only</option></select>
+          </div>
+          <div class="fld"><label for="fOnline">Account type</label>
+            <select id="fOnline"><option value="true">Official accounts</option><option value="false">Cracked (offline)</option></select>
+            <span class="help">Cracked is less secure — use it only for private play.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="fld"><label for="fPvp">PvP</label>
+            <select id="fPvp"><option value="true">On</option><option value="false">Off</option></select>
+          </div>
+          <div class="fld"><label for="fView">View distance</label><input id="fView" type="number" min="2" max="32" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IMPORT ===== -->
+    <section class="view" data-view="files">
+      <div class="card">
+        <h3>Import an existing server.properties</h3>
+        <p class="muted" style="margin:0 0 16px;font-size:13.5px">Already have a server folder? Drop the file here to load its settings into this panel. Every line we don't manage is preserved when you export.</p>
+
+        <div class="dropzone" id="dropZone">
+          <input id="propFile" type="file" accept=".properties,text/plain" hidden />
+          <div class="dz-ic">+</div>
+          <b style="font-family:var(--fd);font-size:17px">Drop server.properties here</b>
+          <div class="muted" style="font-size:13.5px">or <u id="propBrowse" style="cursor:pointer">choose the file</u></div>
+        </div>
+
+        <div id="importedInfo" style="display:none;margin-top:18px">
+          <div class="callout good"><strong>Loaded.</strong> <span id="importedCount"></span> Settings are now filled in across the panel — switch to Overview or Server options to edit them.</div>
+          <button class="btn ghost sm" id="exportProps">Export updated server.properties</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DEPLOY ===== -->
+    <section class="view" data-view="deploy">
+      <div class="card">
+        <h3>Download your server pack</h3>
+        <p class="muted" style="margin:0 0 16px;font-size:13.5px">One zip with everything configured. Unzip it, run the start file, and you're hosting.</p>
+
+        <div style="display:grid;gap:0 22px;grid-template-columns:1fr 1fr" id="summary"></div>
+
+        <label class="addon" style="margin:18px 0;cursor:pointer" id="playitToggleWrap">
+          <div class="box" id="playitBox">✓</div>
+          <div>
+            <h4>Include playit.exe for a public address</h4>
+            <p>Bundles the tunnel right into the folder so friends can join from anywhere. <code>start.bat</code> launches it quietly in the background — no separate install.</p>
+          </div>
+        </label>
+
+        <label class="addon" style="cursor:pointer" id="eulaWrap">
+          <div class="box" id="eulaBox"></div>
+          <div>
+            <h4>I accept the Minecraft EULA</h4>
+            <p>Required. We set <code>eula=true</code> for you so you never have to edit that file.</p>
+          </div>
+        </label>
+
+        <button class="btn primary big block" id="btnPack" style="margin-top:18px" disabled>Download server pack</button>
+        <div class="status-line" id="packStatus" aria-live="polite"></div>
+
+        <div class="callout" style="margin-top:6px">
+          <strong>What lands in the zip.</strong> <code>server.properties</code> from your settings, <code>eula.txt</code> already accepted, your plugins inside <code>/plugins</code> (or <code>/mods</code>), <code>start.bat</code> and <code>start.sh</code>, plus <code>playit.exe</code> when that box is ticked.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ DOMAIN MODAL ============ -->
+<div class="modal-bg" id="domainModal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="domTitle">
+    <div class="modal-head">
+      <div>
+        <h2 id="domTitle">Use your own domain</h2>
+        <p class="muted" style="margin:4px 0 0;font-size:14px">Point <code>play.yourdomain.com</code> at your server so friends never type an IP.</p>
+      </div>
+      <button class="modal-x" id="domClose" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="callout">
+      <strong>First, get your tunnel address.</strong>
+      <div class="step-row"><span class="step-n">1</span><div>Run <code>start.bat</code> from your downloaded pack. It launches <code>playit.exe</code> in the background automatically.</div></div>
+      <div class="step-row"><span class="step-n">2</span><div><b>First run only:</b> the console prints a one-time claim link like <code>https://playit.gg/claim/abc123</code>. Open it in your browser, sign in free, and click <b>Allow</b>.</div></div>
+      <div class="step-row"><span class="step-n">3</span><div>Your address appears at <b>playit.gg/account/tunnels</b> — something like <code>logo-bacon.gl.joinmc.link</code>. Paste it below.</div></div>
+    </div>
+
+    <div class="row" style="margin-top:6px">
+      <div class="fld">
+        <label for="domTarget">Your tunnel address</label>
+        <input id="domTarget" type="text" placeholder="logo-bacon.gl.joinmc.link" />
+      </div>
+      <div class="fld">
+        <label for="domPort">Port</label>
+        <input id="domPort" type="number" min="1" max="65535" value="25565" />
+      </div>
+    </div>
+    <div class="fld">
+      <label for="domName">Subdomain you want</label>
+      <input id="domName" type="text" placeholder="play" value="play" />
+      <span class="help">The part before your domain — e.g. <code>play</code> gives <code>play.yourdomain.com</code>.</span>
+    </div>
+
+    <button class="btn primary sm" id="domGen">Show me the DNS record</button>
+    <div id="domOut" style="margin-top:16px"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!Auth.guard('protected')) return;
+
+  const S = ServerState.data;
+  const user = Auth.current();
+  $('#userName').textContent = user.username;
+  $('#avatar').textContent = (user.username[0] || 'M').toUpperCase();
+  $('#signOut').addEventListener('click', () => Auth.signOut());
+
+  /* ---------- sidebar nav ---------- */
+  const CRUMBS = {
+    overview: ['Overview', 'Everything about your server at a glance.'],
+    console:  ['Console', 'Watch the log and send commands.'],
+    software: ['Software', 'Pick the server type, version and memory.'],
+    addons:   ['Plugins & mods', 'Bundled into your download automatically.'],
+    options:  ['Server options', 'Gameplay rules and connection settings.'],
+    files:    ['Import config', 'Load an existing server.properties.'],
+    deploy:   ['Download pack', 'Build the ready-to-run folder.'],
+  };
+  function go(view) {
+    $$('.navlink').forEach(a => a.classList.toggle('active', a.dataset.view === view));
+    $$('.view').forEach(v => v.classList.toggle('show', v.dataset.view === view));
+    $('#crumb').textContent = CRUMBS[view][0];
+    $('#crumbSub').textContent = CRUMBS[view][1];
+    $('#sidebar').classList.remove('open');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  $$('.navlink').forEach(a => a.addEventListener('click', () => go(a.dataset.view)));
+  $('#burger').addEventListener('click', () => {
+    if (innerWidth <= 980) $('#sidebar').classList.toggle('open');
+    else $('#shell').classList.toggle('collapsed');
+  });
+
+  /* ---------- appearance controls ---------- */
+  const COLOURS = [['§f','#ffffff'],['§a','#55ff55'],['§e','#ffff55'],['§6','#ffaa00'],
+                   ['§b','#55ffff'],['§d','#ff55ff'],['§c','#ff5555'],['§9','#5555ff'],
+                   ['§2','#00aa00'],['§7','#aaaaaa']];
+  let motdColour = '', motdBold = false, motdItalic = false;
+
+  const swWrap = $('#ovSwatches');
+  COLOURS.forEach(([code, hex]) => {
+    const el = document.createElement('span');
+    el.className = 'sw';
+    el.style.background = hex;
+    el.dataset.code = code;
+    el.addEventListener('click', () => {
+      motdColour = motdColour === code ? '' : code;
+      syncSwatches();
+      pushMotd();
+    });
+    swWrap.appendChild(el);
+  });
+  const syncSwatches = () =>
+    $$('#ovSwatches .sw').forEach(s => s.classList.toggle('sel', s.dataset.code === motdColour));
+
+  $('#pBold').addEventListener('click', () => {
+    motdBold = !motdBold; $('#pBold').classList.toggle('sel', motdBold); pushMotd();
+  });
+  $('#pItalic').addEventListener('click', () => {
+    motdItalic = !motdItalic; $('#pItalic').classList.toggle('sel', motdItalic); pushMotd();
+  });
+
+  function plainName() {
+    return $('#fName').value.replace(/§[0-9a-fk-or]/gi, '');
+  }
+  function pushMotd() {
+    const motd = motdColour + (motdBold ? '§l' : '') + (motdItalic ? '§o' : '') + plainName();
+    ServerState.set({ motd, motd2: $('#fMotd2').value, name: plainName() || 'my-server' });
+  }
+  $('#fName').addEventListener('input', pushMotd);
+  $('#fMotd2').addEventListener('input', pushMotd);
+
+  /* ---------- icon ---------- */
+  $('#iconBtn').addEventListener('click', () => $('#iconFile').click());
+  $('#iconFile').addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (!/^image\//.test(f.type)) return toast('Pick an image file.');
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas');
+        c.width = c.height = 64;
+        const ctx = c.getContext('2d');
+        const side = Math.min(img.width, img.height);
+        ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, 64, 64);
+        const url = c.toDataURL('image/png');
+        const bin = atob(url.split(',')[1]);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        ServerState.set({ iconURL: url, icon: bytes });
+        $('#iconClear').style.display = '';
+      };
+      img.onerror = () => toast('That image could not be loaded.');
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+  $('#iconClear').addEventListener('click', () => {
+    ServerState.set({ icon: null, iconURL: null });
+    $('#iconFile').value = '';
+    $('#iconClear').style.display = 'none';
+  });
+
+  /* ---------- software ---------- */
+  const SW_INFO = {
+    paper:    ['Paper', 'Fast and stable, runs plugins. Best all-rounder.'],
+    vanilla:  ['Vanilla', 'The official server, unchanged. No plugins or mods.'],
+    fabric:   ['Fabric', 'Lightweight modding. Friends need the same mods.'],
+    neoforge: ['NeoForge', 'Modern modding for big modpacks. Friends need the same mods.'],
+  };
+  const swGrid = $('#swGrid');
+  Object.entries(SW_INFO).forEach(([key, [name, desc]]) => {
+    const d = document.createElement('div');
+    d.className = 'addon';
+    d.dataset.sw = key;
+    d.innerHTML = `<div class="box"></div><div><h4>${name}</h4><p>${desc}</p></div>`;
+    d.addEventListener('click', () => {
+      ServerState.set({ sw: key, addons: {} });
+      buildAddons();
+      $('#searchResults').innerHTML = '';
+      $('#searchBox').value = '';
+    });
+    swGrid.appendChild(d);
+  });
+
+  $('#fVer').addEventListener('change', () => ServerState.set({ mcver: $('#fVer').value }));
+
+  $$('#ramPills .pill').forEach(p => p.addEventListener('click', () => {
+    $$('#ramPills .pill').forEach(x => x.classList.remove('sel'));
+    p.classList.add('sel');
+    if (p.dataset.ram === 'custom') {
+      $('#ramCustomRow').style.display = '';
+      ServerState.set({ ram: clampInt($('#ramCustom').value, 1, 64, 16) });
+    } else {
+      $('#ramCustomRow').style.display = 'none';
+      ServerState.set({ ram: parseInt(p.dataset.ram, 10) });
+    }
+  }));
+  $('#ramCustom').addEventListener('input', () =>
+    ServerState.set({ ram: clampInt($('#ramCustom').value, 1, 64, 16) }));
+
+  /* ---------- add-ons ---------- */
+  function buildAddons() {
+    const s = ServerState.data;
+    const items = CATALOG[s.sw] || [];
+    $('#addonTitle').textContent = s.sw === 'paper' ? 'Plugins' : s.sw === 'vanilla' ? 'Add-ons' : 'Mods';
+    const list = $('#addonList');
+
+    if (!items.length) {
+      $('#popularWrap').style.display = 'none';
+      $('#searchWrap').style.display = 'none';
+      $('#addonLead').textContent = 'Vanilla does not use plugins or mods, so there is nothing to pick here.';
+      ServerState.set({ addons: {} });
+      renderChips();
+      return;
+    }
+    $('#popularWrap').style.display = '';
+    $('#searchWrap').style.display = '';
+    $('#addonLead').textContent = 'Tick the popular ones, or search Modrinth for anything else. Everything you pick is downloaded straight into your pack.';
+
+    const addons = {};
+    list.innerHTML = '';
+    items.forEach(it => {
+      if (it.on) addons[it.slug] = { name: it.name, on: true };
+      const d = document.createElement('div');
+      d.className = 'addon' + (it.on ? ' sel' : '');
+      d.dataset.slug = it.slug;
+      d.innerHTML = `<div class="box">${it.on ? '✓' : ''}</div><div><h4>${esc(it.name)}</h4><p>${esc(it.desc)}</p></div>`;
+      d.addEventListener('click', () => toggleAddon(it.slug, it.name));
+      list.appendChild(d);
+    });
+    ServerState.set({ addons });
+    renderChips();
+  }
+
+  function toggleAddon(slug, name) {
+    const addons = { ...ServerState.data.addons };
+    if (addons[slug]?.on) delete addons[slug];
+    else addons[slug] = { name: name || slug, on: true };
+    ServerState.set({ addons });
+    syncAddonCards();
+    renderChips();
+  }
+
+  function syncAddonCards() {
+    const addons = ServerState.data.addons;
+    $$('#addonList .addon').forEach(d => {
+      const on = Boolean(addons[d.dataset.slug]?.on);
+      d.classList.toggle('sel', on);
+      $('.box', d).textContent = on ? '✓' : '';
+    });
+    $$('#searchResults .addbtn').forEach(b => {
+      const on = Boolean(addons[b.dataset.slug]?.on);
+      b.textContent = on ? 'Added' : 'Add';
+      b.classList.toggle('added', on);
+    });
+  }
+
+  function renderChips() {
+    const keys = ServerState.selectedAddons();
+    $('#selCount').textContent = keys.length;
+    const box = $('#selectedChips');
+    if (!keys.length) { box.innerHTML = '<span class="help">Nothing selected yet.</span>'; return; }
+    box.innerHTML = keys.map(k =>
+      `<span class="tagx">${esc(ServerState.data.addons[k].name)} <b data-rm="${esc(k)}">×</b></span>`).join('');
+    $$('#selectedChips [data-rm]').forEach(b => b.addEventListener('click', () => {
+      const addons = { ...ServerState.data.addons };
+      delete addons[b.dataset.rm];
+      ServerState.set({ addons });
+      syncAddonCards();
+      renderChips();
+    }));
+  }
+
+  let searchTimer;
+  $('#searchBox').addEventListener('input', function () {
+    const q = this.value.trim();
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => doSearch(q), 350);
+  });
+
+  async function doSearch(q) {
+    const box = $('#searchResults');
+    if (q.length < 2) { box.innerHTML = ''; return; }
+    box.innerHTML = '<div class="help" style="padding:6px">Searching Modrinth…</div>';
+    try {
+      const hits = await Modrinth.search(q, ServerState.data.sw);
+      if (!hits.length) { box.innerHTML = '<div class="help" style="padding:6px">No matches. Try another word.</div>'; return; }
+      box.innerHTML = '';
+      hits.forEach(h => {
+        const on = Boolean(ServerState.data.addons[h.slug]?.on);
+        const dl = h.downloads >= 1e6 ? (Math.round(h.downloads / 1e5) / 10) + 'M'
+                 : h.downloads >= 1e3 ? Math.round(h.downloads / 1e3) + 'k' : h.downloads;
+        const el = document.createElement('div');
+        el.className = 'res';
+        el.innerHTML =
+          (h.icon_url ? `<img src="${esc(h.icon_url)}" alt="">` : '<div class="ph"></div>') +
+          `<div class="mid"><h5>${esc(h.title)}</h5><p>${esc(h.description || '')}</p></div>` +
+          `<div style="text-align:right"><div class="muted" style="font-family:var(--fm);font-size:11px">${dl} dl</div>` +
+          `<button class="addbtn${on ? ' added' : ''}" data-slug="${esc(h.slug)}">${on ? 'Added' : 'Add'}</button></div>`;
+        $('.addbtn', el).addEventListener('click', () => toggleAddon(h.slug, h.title));
+        box.appendChild(el);
+      });
+    } catch {
+      box.innerHTML = '<div class="help" style="padding:6px">Could not reach Modrinth. Popular picks above still work.</div>';
+    }
+  }
+
+  /* ---------- options ---------- */
+  const OPT = {
+    fMax: 'maxPlayers', fPort: 'port', fGamemode: 'gamemode', fDifficulty: 'difficulty',
+    fWhitelist: 'whitelist', fOnline: 'onlineMode', fPvp: 'pvp', fView: 'viewDistance',
+  };
+  Object.entries(OPT).forEach(([id, key]) => {
+    $('#' + id).addEventListener('input', () => ServerState.set({ [key]: $('#' + id).value }));
+  });
+
+  /* ---------- import ---------- */
+  let imported = null;
+  const dz = $('#dropZone');
+  dz.addEventListener('click', () => $('#propFile').click());
+  $('#propBrowse').addEventListener('click', e => { e.stopPropagation(); $('#propFile').click(); });
+  ['dragover', 'dragenter'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('drag'); }));
+  dz.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) readProps(f); });
+  $('#propFile').addEventListener('change', e => { const f = e.target.files[0]; if (f) readProps(f); });
+
+  function readProps(file) {
+    const r = new FileReader();
+    r.onload = ev => {
+      imported = Properties.parse(ev.target.result);
+      const m = imported.map;
+      const motd = Properties.readMotd(m['motd']);
+
+      motdColour = motd.colour; motdBold = motd.bold; motdItalic = motd.italic;
+      syncSwatches();
+      $('#pBold').classList.toggle('sel', motdBold);
+      $('#pItalic').classList.toggle('sel', motdItalic);
+
+      ServerState.set({
+        name: motd.text || 'my-server',
+        motd: (motd.colour || '') + (motd.bold ? '§l' : '') + (motd.italic ? '§o' : '') + motd.text,
+        maxPlayers: m['max-players'] || 10,
+        port: m['server-port'] || 25565,
+        gamemode: m['gamemode'] || 'survival',
+        difficulty: m['difficulty'] || 'normal',
+        whitelist: m['white-list'] || 'false',
+        onlineMode: m['online-mode'] || 'true',
+        pvp: m['pvp'] || 'true',
+        viewDistance: m['view-distance'] || 10,
+      });
+
+      hydrate();   // push the imported values back into every visible input
+      $('#importedCount').textContent = `${Object.keys(m).length} settings read.`;
+      $('#importedInfo').style.display = '';
+      toast('server.properties loaded');
+    };
+    r.onerror = () => toast('Could not read that file.');
+    r.readAsText(file);
+  }
+
+  $('#exportProps').addEventListener('click', () => {
+    if (!imported) return;
+    const s = ServerState.data;
+    const text = Properties.serialize(imported, {
+      'motd': s.motd + (s.motd2 ? `\\n${s.motd2}` : ''),
+      'max-players': clampInt(s.maxPlayers, 1, 500, 10),
+      'server-port': clampInt(s.port, 1, 65535, 25565),
+      'gamemode': s.gamemode,
+      'difficulty': s.difficulty,
+      'white-list': s.whitelist,
+      'enforce-whitelist': s.whitelist,
+      'online-mode': s.onlineMode,
+      'pvp': s.pvp,
+      'view-distance': clampInt(s.viewDistance, 2, 32, 10),
+    });
+    download(new Blob([text], { type: 'text/plain' }), 'server.properties');
+    toast('Exported — drop it back in your server folder');
+  });
+
+  /* ---------- deploy ---------- */
+  let eulaOk = false;
+  $('#eulaWrap').addEventListener('click', () => {
+    eulaOk = !eulaOk;
+    $('#eulaBox').textContent = eulaOk ? '✓' : '';
+    $('#eulaWrap').classList.toggle('sel', eulaOk);
+    $('#btnPack').disabled = !eulaOk;
+  });
+  $('#playitToggleWrap').addEventListener('click', () => {
+    const on = !ServerState.data.bundlePlayit;
+    ServerState.set({ bundlePlayit: on });
+    $('#playitBox').textContent = on ? '✓' : '';
+    $('#playitToggleWrap').classList.toggle('sel', on);
+  });
+
+  $('#btnPack').addEventListener('click', async () => {
+    const btn = $('#btnPack');
+    btn.disabled = true;
+    try {
+      const res = await Pack.build(ServerState.data, msg => $('#packStatus').textContent = msg);
+      download(res.blob, res.filename);
+      let msg = `Done — ${res.filename}. Unzip it and run start.bat.`;
+      if (res.notes.warnings.length) msg += ` ${res.notes.warnings.length} item(s) need a manual step — see README.txt.`;
+      $('#packStatus').textContent = msg;
+    } catch (err) {
+      $('#packStatus').textContent = 'Could not build the pack: ' + err.message;
+    }
+    btn.disabled = false;
+  });
+
+  /* ---------- power + simulated console ---------- */
+  let status = 'offline', bootTimers = [], tickTimer = null;
+  const hist = { ram: [], cpu: [], disk: [], players: [] };
+
+  function setStatus(next) {
+    status = next;
+    const badge = $('#statusBadge');
+    badge.className = 'badge ' + next;
+    $('#statusText').textContent = next;
+    $('#termDot').style.background =
+      next === 'online' ? 'var(--good)' : next === 'starting' ? 'var(--amber)' : 'var(--muted)';
+    $('#btnStart').disabled = next !== 'offline';
+    $('#btnStop').disabled = next === 'offline';
+    $('#btnKill').disabled = next === 'offline';
+    $('#btnRestart').disabled = next === 'offline';
+  }
+
+  function log(text, cls = 't-plain') {
+    const body = $('#termBody');
+    body.insertAdjacentHTML('beforeend', `<p class="${cls}">${esc(text)}</p>`);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function startServer() {
+    const s = ServerState.data;
+    $('#termBody').innerHTML = '';
+    setStatus('starting');
+    const lines = [
+      [`Starting ${SWNAME[s.sw]} ${s.mcver} with ${s.ram}GB RAM`, 't-warn'],
+      ['Loading libraries', 't-dim'],
+      ['Preparing level "world"', 't-plain'],
+      [`Loading ${ServerState.selectedAddons().length} add-on(s)`, 't-plain'],
+      ['Preparing spawn area: 84%', 't-dim'],
+      ['Done (6.418s)! For help, type "help"', 't-good'],
+    ];
+    bootTimers.forEach(clearTimeout);
+    bootTimers = lines.map(([t, c], i) => setTimeout(() => {
+      log(t, c);
+      if (i === lines.length - 1) {
+        setStatus('online');
+        const addr = `${(s.name || 'server').replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.gl.joinmc.link`;
+        $('#addrText').textContent = addr;
+        log(`Public address: ${addr}`, 't-good');
+        startTicks();
+      }
+    }, 420 + i * 520));
+  }
+
+  function stopServer(kill) {
+    bootTimers.forEach(clearTimeout);
+    clearInterval(tickTimer);
+    if (kill) log('Process killed.', 't-bad');
+    else log('Stopping server…', 't-warn');
+    setStatus('offline');
+    $('#addrText').textContent = 'start the server to get your address';
+    ['ram','cpu','disk','players'].forEach(k => hist[k] = []);
+    paintMetrics(0, 0, 0.4, 0);
+  }
+
+  $('#btnStart').addEventListener('click', startServer);
+  $('#btnStop').addEventListener('click', () => stopServer(false));
+  $('#btnKill').addEventListener('click', () => stopServer(true));
+  $('#btnRestart').addEventListener('click', () => { stopServer(false); setTimeout(startServer, 500); });
+  $('#termClear').addEventListener('click', () => $('#termBody').innerHTML = '');
+
+  $('#cmdInput').addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const cmd = e.target.value.trim();
+    if (!cmd) return;
+    e.target.value = '';
+    if (status !== 'online') return log(`Server is ${status} — start it first.`, 't-bad');
+    log(`> ${cmd}`, 't-warn');
+    if (cmd === 'help') log('Commands: help, list, say <msg>, stop', 't-dim');
+    else if (cmd === 'list') log(`There are 0 of a max of ${ServerState.data.maxPlayers} players online`, 't-plain');
+    else if (cmd.startsWith('say ')) log(`[Server] ${cmd.slice(4)}`, 't-plain');
+    else if (cmd === 'stop') stopServer(false);
+    else log(`Unknown command: ${cmd}`, 't-bad');
+  });
+
+  function startTicks() {
+    clearInterval(tickTimer);
+    tickTimer = setInterval(() => {
+      const s = ServerState.data;
+      const ram = Math.min(s.ram, 0.9 + Math.random() * (s.ram * 0.45));
+      const cpu = 6 + Math.random() * 22;
+      const disk = 0.4 + Math.random() * 0.05;
+      const players = 0;
+      paintMetrics(ram, cpu, disk, players);
+    }, 1400);
+  }
+
+  function paintMetrics(ram, cpu, disk, players) {
+    const s = ServerState.data;
+    $('#mRam').innerHTML = `${ram.toFixed(1)}<small> / ${s.ram} GB</small>`;
+    $('#mCpu').innerHTML = `${Math.round(cpu)}<small>%</small>`;
+    $('#mDisk').innerHTML = `${disk.toFixed(2)}<small> GB</small>`;
+    $('#mPlayers').innerHTML = `${players}<small> / ${s.maxPlayers}</small>`;
+    push('ram', ram / Math.max(s.ram, 1));
+    push('cpu', cpu / 100);
+    push('disk', disk / 5);
+    push('players', players / Math.max(s.maxPlayers, 1));
+  }
+
+  function push(key, valueRatio) {
+    const arr = hist[key];
+    arr.push(Math.max(0, Math.min(1, valueRatio)));
+    if (arr.length > 28) arr.shift();
+    const colour = { ram: 'var(--amber)', cpu: 'var(--cool)', disk: 'var(--muted)', players: 'var(--good)' }[key];
+    const svg = $('#spark' + key[0].toUpperCase() + key.slice(1));
+    if (!svg) return;
+    if (arr.length < 2) { svg.innerHTML = ''; return; }
+    const pts = arr.map((v, i) => `${(i / (arr.length - 1)) * 100},${34 - v * 30}`).join(' ');
+    svg.innerHTML =
+      `<polyline points="${pts}" fill="none" stroke="${colour}" stroke-width="1.8" vector-effect="non-scaling-stroke"/>`;
+  }
+  setStatus('offline');
+
+  /* ---------- domain modal ---------- */
+  const modal = $('#domainModal');
+  $('#openDomain').addEventListener('click', () => modal.classList.add('open'));
+  $('#domClose').addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+
+  $('#copyAddr').addEventListener('click', () => {
+    const t = $('#addrText').textContent;
+    if (t.startsWith('start the server')) return toast('Start the server first');
+    copyText(t, $('#copyAddr'));
+  });
+
+  const kvRow = (label, value) =>
+    `<div class="kv"><span>${esc(label)}</span><code>${esc(value)}</code>` +
+    `<button class="copybtn" data-c="${esc(value)}">Copy</button></div>`;
+
+  $('#domGen').addEventListener('click', () => {
+    const target = $('#domTarget').value.trim().replace(/^https?:\/\//, '').replace(/:\d+$/, '');
+    const port = clampInt($('#domPort').value, 1, 65535, 25565);
+    const name = ($('#domName').value.trim() || 'play').replace(/[^a-z0-9-]/gi, '');
+    const out = $('#domOut');
+
+    if (!target) {
+      out.innerHTML = '<div class="callout">Paste your tunnel address first — the one from playit.gg/account/tunnels.</div>';
+      return;
+    }
+
+    out.innerHTML =
+      `<div class="card" style="padding:16px">
+        <h3 style="font-size:16px">SRV record — friends skip the port</h3>
+        <p class="muted" style="font-size:13px;margin:0 0 10px">Add this at your domain provider. The underscores matter.</p>
+        ${kvRow('Type', 'SRV')}
+        ${kvRow('Name / Host', `_minecraft._tcp.${name}`)}
+        ${kvRow('Value', `0 0 ${port} ${target}`)}
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Some panels split that value into separate boxes: Priority <b>0</b>, Weight <b>0</b>, Port <b>${port}</b>, Target <b>${esc(target)}</b>.</p>
+      </div>
+      ${port === 25565 ? `<div class="card" style="padding:16px;margin-top:12px">
+        <h3 style="font-size:16px">CNAME — simpler alternative</h3>
+        <p class="muted" style="font-size:13px;margin:0 0 10px">Works because your port is the default 25565.</p>
+        ${kvRow('Type', 'CNAME')}
+        ${kvRow('Name / Host', name)}
+        ${kvRow('Target', target)}
+      </div>` : ''}
+      <div class="callout" style="margin-top:12px"><strong>After saving,</strong> give DNS 10–30 minutes. Friends then join with <code>${esc(name)}.yourdomain.com</code>. Your server and playit must be running — the domain only points at them.</div>`;
+
+    $$('#domOut .copybtn').forEach(b =>
+      b.addEventListener('click', () => copyText(b.dataset.c, b)));
+  });
+
+  /* ---------- render everything from state ---------- */
+  ServerState.onChange(s => {
+    // header
+    $('#headName').textContent = s.name || 'my-server';
+    $('#headMeta').textContent = `${SWNAME[s.sw]} ${s.mcver} · ${s.ram} GB`;
+    $('#termName').textContent = s.name || 'my-server';
+
+    // preview
+    $('#ovName').innerHTML = renderMotd(s.motd || s.name || 'my-server');
+    $('#ovMotd').innerHTML = renderMotd(s.motd2 || '');
+    $('#ovCount').textContent = `0 / ${s.maxPlayers}`;
+    $('#ovSw').textContent = SWNAME[s.sw];
+    $('#ovVer').textContent = s.mcver;
+    $('#ovMode').textContent =
+      s.gamemode[0].toUpperCase() + s.gamemode.slice(1) + ' · ' +
+      s.difficulty[0].toUpperCase() + s.difficulty.slice(1);
+    $('#ovAddons').textContent = ServerState.selectedAddons().length;
+
+    const iconHTML = s.iconURL
+      ? `<img src="${s.iconURL}" alt="">`
+      : '<svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" fill="#3a3a4e"/><rect width="30" height="11" fill="#5fd35f"/><rect y="11" width="30" height="3" fill="#3fae3f"/></svg>';
+    $('#ovIcon').innerHTML = iconHTML;
+    $('#iconPrev').innerHTML = iconHTML;
+
+    // software cards
+    $$('#swGrid .addon').forEach(d => {
+      const on = d.dataset.sw === s.sw;
+      d.classList.toggle('sel', on);
+      $('.box', d).textContent = on ? '✓' : '';
+    });
+
+    // summary on deploy
+    const rows = [
+      ['Name', s.name || 'my-server'], ['Software', SWNAME[s.sw]], ['Version', s.mcver],
+      ['Memory', s.ram + ' GB'], ['Max players', s.maxPlayers], ['Gamemode', s.gamemode],
+      ['Difficulty', s.difficulty], ['Who can join', s.whitelist === 'true' ? 'Whitelist' : 'Anyone'],
+      ['Accounts', s.onlineMode === 'true' ? 'Official' : 'Cracked'],
+      ['Add-ons', ServerState.selectedAddons().length || 'None'],
+      ['Icon', s.iconURL ? 'Custom' : 'Default'],
+      ['Public address', s.bundlePlayit ? 'playit bundled' : 'not included'],
+    ];
+    $('#summary').innerHTML = rows.map(([k, v]) =>
+      `<div style="display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line-soft);font-size:14px"><span class="muted">${k}</span><b>${esc(v)}</b></div>`).join('');
+
+    $('#verHint').textContent = /^2[6-9]\./.test(s.mcver)
+      ? `Heads up: ${s.mcver} needs Java 25 installed.`
+      : 'Pick the version you and your friends play on.';
+  });
+
+  /* ---------- hydrate inputs from state ---------- */
+  function hydrate() {
+    const s = ServerState.data;
+    const motd = Properties.readMotd(s.motd);
+    motdColour = motd.colour; motdBold = motd.bold; motdItalic = motd.italic;
+    syncSwatches();
+    $('#pBold').classList.toggle('sel', motdBold);
+    $('#pItalic').classList.toggle('sel', motdItalic);
+
+    $('#fName').value = motd.text || s.name || 'my-server';
+    $('#fMotd2').value = s.motd2 || '';
+    $('#fVer').value = s.mcver;
+    $('#fMax').value = s.maxPlayers;
+    $('#fPort').value = s.port;
+    $('#fGamemode').value = s.gamemode;
+    $('#fDifficulty').value = s.difficulty;
+    $('#fWhitelist').value = s.whitelist;
+    $('#fOnline').value = s.onlineMode;
+    $('#fPvp').value = s.pvp;
+    $('#fView').value = s.viewDistance;
+    if (s.iconURL) $('#iconClear').style.display = '';
+
+    $$('#ramPills .pill').forEach(p => p.classList.toggle('sel', +p.dataset.ram === s.ram));
+    if (!$$('#ramPills .pill.sel').length) {
+      $('#ramPills .pill[data-ram="custom"]').classList.add('sel');
+      $('#ramCustomRow').style.display = '';
+      $('#ramCustom').value = s.ram;
+    }
+
+    $('#playitBox').textContent = s.bundlePlayit ? '✓' : '';
+    $('#playitToggleWrap').classList.toggle('sel', s.bundlePlayit);
+  }
+
+  hydrate();
+  buildAddons();
+  paintMetrics(0, 0, 0.4, 0);
+});
+</script>
+</body>
+</html>

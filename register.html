@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Create your account · MZForge</title>
+<meta name="description" content="Create a free MZForge account and set up a Minecraft server in minutes." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="auth-grid">
+  <aside class="auth-aside">
+    <a class="brand" href="index.html">
+      <span class="mark"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 1l8 4.5v9L10 19l-8-4.5v-9z" fill="none" stroke="#f6a623" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 1v18M2 5.5l8 4.5 8-4.5" fill="none" stroke="#56b6ff" stroke-width="1.1" stroke-linejoin="round" opacity=".8"/></svg></span>
+      <b>MZ<span>Forge</span></b>
+    </a>
+    <div style="flex:1;display:flex;align-items:center;padding:40px 0">
+      <div style="width:100%">
+        <h2 style="font-family:var(--fd);font-size:30px;font-weight:800;line-height:1.15;letter-spacing:-.5px;max-width:18ch;margin:0 0 8px">Your server, up in seconds.</h2>
+        <p class="muted" style="font-size:15px;max-width:44ch;margin:0 0 30px">Pick your software, hit start, share the address. We handle the Java, the ports and the updates.</p>
+        <div class="term" style="max-width:430px">
+          <div class="term-bar">
+            <span class="bdot" id="bootDot" style="width:8px;height:8px;border-radius:99px;background:var(--amber)"></span>
+            <span style="font-family:var(--fm);font-size:12px" class="muted">ocean-smp</span>
+            <span id="bootStat" style="margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--amber)">starting</span>
+          </div>
+          <div class="term-body" id="bootBody" style="height:230px;overflow:hidden"></div>
+        </div>
+      </div>
+    </div>
+    <p class="muted" style="font-family:var(--fm);font-size:11px;opacity:.7;margin:0">Not affiliated with Mojang Studios or Microsoft.</p>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-form">
+      <h1>Create your account</h1>
+      <p class="lead">Your first server is a couple of clicks away.</p>
+      <div class="oauth">
+        <button class="ob" type="button" data-provider="discord">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.25.5c1.6.4 2.9 1 4.2 1.9a15.6 15.6 0 0 0-14.7 0c1.3-.9 2.8-1.6 4.2-1.9L8.6 3c-1.8.3-3.5.9-5 1.4C.9 8.5.2 12.5.5 16.5a20 20 0 0 0 6 3l1.3-2c-.7-.25-1.4-.6-2-1 .17-.12.33-.25.5-.37a14.2 14.2 0 0 0 12.2 0l.5.37c-.62.4-1.3.75-2 1l1.3 2a19.9 19.9 0 0 0 6-3c.4-4.6-.7-8.6-3-12.1zM8.4 14.2c-1.15 0-2.1-1.05-2.1-2.35s.93-2.36 2.1-2.36c1.18 0 2.13 1.06 2.1 2.36 0 1.3-.93 2.35-2.1 2.35zm7.2 0c-1.15 0-2.1-1.05-2.1-2.35s.93-2.36 2.1-2.36c1.18 0 2.13 1.06 2.1 2.36 0 1.3-.92 2.35-2.1 2.35z"/></svg>
+          Discord
+        </button>
+        <button class="ob" type="button" data-provider="google">
+          <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.66v3h3.9c2.3-2.1 3.5-5.2 3.5-8.86z"/><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.6V6.7H1.4a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>
+          Google
+        </button>
+      </div>
+      <div class="divider"><span></span><em>or use your email</em><span></span></div>
+
+      <form id="form" novalidate>
+        <div class="fld">
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" placeholder="steve" />
+        </div>
+        <p class="err" id="err-username"></p>
+
+        <div class="fld">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <p class="err" id="err-email"></p>
+
+        <div class="fld">
+          <label for="password">Password</label>
+          <div class="pwrap">
+            <input id="password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" style="padding-right:46px" />
+            <button class="eye" type="button" id="eye" aria-label="Show password">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="err" id="err-password"></p>
+
+        <div class="fld">
+          <label for="confirm">Confirm password</label>
+          <input id="confirm" name="confirm" type="password" autocomplete="new-password" />
+        </div>
+        <p class="err" id="err-confirm"></p>
+
+        <button class="btn primary block" type="submit" id="submit">Create account</button>
+        <p class="muted" style="font-size:12.5px;margin-top:12px">By creating an account you agree to the terms and privacy policy.</p>
+      </form>
+
+      <p class="auth-foot">Already have one? <a href="login.html">Sign in</a></p>
+    </div>
+  </main>
+</div>
+
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!Auth.guard('guest')) return;
+
+  // Boot log animation — the one moving thing on this page.
+  const SCRIPT = [
+    ['$ mzforge boot --server ocean-smp','t-warn'],
+    ['Allocating 4 GB','t-dim'],
+    ['Pulling Paper 26.1.2 (build 74)','t-plain'],
+    ['Verifying checksum ... ok','t-dim'],
+    ['Accepting EULA','t-dim'],
+    ['Loading 8 plugins','t-plain'],
+    ['Generating spawn chunks','t-plain'],
+    ['Done (6.418s)','t-good'],
+    ['Public address ready','t-good'],
+  ];
+  const body = $('#bootBody');
+  if (body) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finish = () => {
+      $('#bootDot').style.background = 'var(--good)';
+      $('#bootStat').style.color = 'var(--good)';
+      $('#bootStat').textContent = 'online';
+    };
+    if (reduced) {
+      body.innerHTML = SCRIPT.map(([t,c]) => `<p class="${c}">${esc(t)}</p>`).join('');
+      finish();
+    } else {
+      SCRIPT.forEach(([t,c],i) => setTimeout(() => {
+        body.insertAdjacentHTML('beforeend', `<p class="${c}">${esc(t)}</p>`);
+        if (i === SCRIPT.length-1) finish();
+      }, 300 + i*380));
+    }
+  }
+
+  const next = new URLSearchParams(location.search).get('next');
+
+  $('#eye').addEventListener('click', () => {
+    const i = $('#password');
+    i.type = i.type === 'password' ? 'text' : 'password';
+  });
+
+  $$('[data-provider]').forEach(b => b.addEventListener('click', async () => {
+    await Auth.oauth(b.dataset.provider);
+    location.href = next || 'dashboard.html';
+  }));
+
+  $('#form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $$('.err').forEach(p => p.textContent = '');
+
+    if ($('#password').value !== $('#confirm').value) {
+      $('#err-confirm').textContent = 'Both passwords need to match.';
+      return;
+    }
+    $('#submit').disabled = true;
+
+    const res = await Auth.register({
+      username: $('#username').value,
+      email: $('#email').value,
+      password: $('#password').value,
+    });
+
+    if (!res.ok) {
+      const target = $('#err-' + (res.field || 'email'));
+      if (target) target.textContent = res.error;
+      $('#submit').disabled = false;
+      return;
+    }
+    location.href = next || 'dashboard.html';
+  });
+});
+</script>
+</body>
+</html>
