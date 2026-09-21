@@ -1,177 +1,1038 @@
 <!doctype html>
-<html lang="en" data-theme="night">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>MZForge — set up a Minecraft server the easy way</title>
-<meta name="description" content="Configure a Minecraft server in your browser and download a ready-to-run pack. Plugins from Modrinth, a public address built in, no file renaming." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#161B26">
+<title>MZForge — free Minecraft servers that run on your own PC</title>
+<meta name="description" content="Create a Minecraft Java server in a minute. It runs on your PC, so there's no queue and no player cap. We give it an address your friends can join.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23161B26'/><rect x='3' y='3' width='10' height='10' fill='%23F4C95D'/><rect x='5' y='5' width='6' height='6' fill='%23161B26'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #161B26;
+  --surface: #1F2634;
+  --raised: #283043;
+  --line: #36405A;
+  --text: #ECEAE3;
+  --muted: #9AA2B5;
+  --glow: #F4C95D;
+  --glow-ink: #2A2106;
+  --online: #5FD6B8;
+  --danger: #EE6A5F;
+  --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --r: 6px;
+  --measure: 68ch;
+  color-scheme: dark;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 17px/1.55 var(--body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; margin: 0 0 .5em; font-weight: 600; letter-spacing: -.01em; }
+h1 { font-size: clamp(2rem, 5.2vw, 3.4rem); font-weight: 700; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 1em; max-width: var(--measure); }
+a { color: var(--glow); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+code { font-family: var(--display); font-weight: 600; }
+:focus-visible { outline: 3px solid var(--glow); outline-offset: 2px; border-radius: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip:focus { position: fixed; left: 12px; top: 12px; width: auto; height: auto; clip: auto; z-index: 100; background: var(--glow); color: var(--glow-ink); padding: 8px 12px; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+.narrow { max-width: 720px; }
+.muted { color: var(--muted); }
+.small { font-size: .9rem; }
+
+/* header */
+.top { position: sticky; top: 0; z-index: 10; padding-top: env(safe-area-inset-top, 0px); background: rgba(22,27,38,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 12px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 700 1.2rem var(--display); color: var(--text); text-decoration: none; margin-right: auto; }
+.brand-mark { width: 22px; height: 22px; background: var(--glow); box-shadow: inset 0 0 0 5px var(--glow), inset 0 0 0 11px var(--bg); }
+.nav { display: flex; gap: 4px; align-items: center; }
+.nav a:not(.btn) { color: var(--muted); text-decoration: none; padding: 8px 10px; border-radius: var(--r); font-family: var(--display); font-weight: 600; }
+.nav a:not(.btn):hover, .nav a[aria-current="page"] { color: var(--text); background: var(--surface); }
+
+/* buttons */
+.btn {
+  --b: var(--raised); --c: var(--text);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--r);
+  background: var(--b); color: var(--c); font: 600 1rem var(--display);
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { box-shadow: inset 0 2px 0 rgba(0,0,0,.3); transform: translateY(1px); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; filter: none; transform: none; }
+.btn.primary { --b: var(--glow); --c: var(--glow-ink); }
+.btn.danger { --b: var(--danger); --c: #2B0906; }
+.btn.ghost { background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
+.btn.small { min-height: 36px; padding: 0 12px; font-size: .92rem; }
+.btn.block { width: 100%; }
+
+main { flex: 1; padding: 40px 0 80px; }
+main:focus { outline: none; }
+
+/* The join-address plate: the most important thing on the site.
+   Styled like an inventory slot: light top-left bevel, dark bottom-right. */
+.plate {
+  background: var(--surface); border-radius: 4px; padding: 20px;
+  box-shadow: inset 3px 3px 0 rgba(255,255,255,.07), inset -3px -3px 0 rgba(0,0,0,.35), 0 0 0 1px var(--line);
+}
+.plate-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.plate-caption { color: var(--muted); font-size: .95rem; }
+.addr-row { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.addr {
+  flex: 1 1 320px; min-width: 0;
+  background: var(--bg); border-radius: 3px; padding: 14px 16px;
+  box-shadow: inset 3px 3px 0 rgba(0,0,0,.45), inset -2px -2px 0 rgba(255,255,255,.05);
+  font: 700 clamp(1.15rem, 3.6vw, 2.1rem)/1.2 var(--display); color: var(--text);
+  overflow-wrap: break-word; user-select: all; letter-spacing: .01em;
+}
+.plate.big .addr { font-size: clamp(1.3rem, 5vw, 2.7rem); padding: 20px; }
+.addr-row .btn { min-width: 112px; min-height: 56px; }
+.plate-foot { margin: 14px 0 0; font-size: .92rem; color: var(--muted); }
+.plate-foot code { color: var(--text); overflow-wrap: anywhere; }
+
+/* status */
+.status { display: inline-flex; align-items: center; gap: 8px; font: 600 .95rem var(--display); }
+.dot { width: 10px; height: 10px; border-radius: 2px; background: var(--muted); flex: none; }
+.status.online { color: var(--online); } .status.online .dot { background: var(--online); box-shadow: 0 0 0 4px rgba(95,214,184,.18); }
+.status.offline { color: var(--muted); }
+.status.never_started { color: var(--glow); } .status.never_started .dot { background: transparent; box-shadow: inset 0 0 0 2px var(--glow); }
+
+/* landing */
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; padding: 24px 0 72px; }
+.hero h1 { max-width: 14ch; }
+.hero .lede { font-size: 1.2rem; color: var(--muted); max-width: 44ch; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.demo .plate { transform: rotate(-1.2deg); }
+.demo .addr { font-size: clamp(1.1rem, 2.3vw, 1.55rem); flex-basis: 100%; }
+.demo .addr-row .btn { display: none; }
+.demo-chat { margin: 18px 0 0 auto; max-width: 300px; background: var(--raised); border-radius: 14px 14px 4px 14px; padding: 12px 14px; font-size: .95rem; transform: rotate(1deg); }
+.demo-chat b { font-family: var(--display); color: var(--glow); }
+.section { padding: 56px 0; border-top: 1px solid var(--line); }
+.steps { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; counter-reset: s; }
+.steps li { counter-increment: s; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 14px; font: 700 1.2rem var(--display); color: var(--glow-ink); background: var(--glow); border-radius: 4px; box-shadow: inset -3px -3px 0 rgba(0,0,0,.25); }
+.steps p { color: var(--muted); font-size: .98rem; }
+.tradeoff { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 12px; }
+.tradeoff ul { padding-left: 1.1em; margin: 0; }
+.tradeoff li { margin-bottom: .7em; max-width: 48ch; }
+.tradeoff li::marker { color: var(--glow); }
+.tradeoff .needs li::marker { color: var(--muted); }
+
+/* forms */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px; }
+.auth { max-width: 420px; margin: 0 auto; }
+.field { margin-bottom: 18px; }
+.field label, .label { display: block; font: 600 .95rem var(--display); margin-bottom: 6px; }
+.hint { color: var(--muted); font-size: .88rem; margin-top: 6px; }
+input[type=text], input[type=email], input[type=password], select {
+  width: 100%; min-height: 46px; padding: 10px 12px; border-radius: var(--r);
+  background: var(--bg); color: var(--text); border: 1px solid var(--line); font: 1rem var(--body);
+}
+input:focus, select:focus { border-color: var(--glow); outline: none; box-shadow: 0 0 0 3px rgba(244,201,93,.25); }
+.pw { position: relative; }
+.pw input { padding-right: 70px; }
+.pw button { position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--raised); border: 0; color: var(--muted); border-radius: 4px; padding: 0 10px; font: 600 .85rem var(--display); cursor: pointer; }
+.slug-input { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); overflow: hidden; }
+.slug-input:focus-within { border-color: var(--glow); box-shadow: 0 0 0 3px rgba(244,201,93,.25); }
+.slug-input input { border: 0; box-shadow: none !important; min-width: 0; }
+.slug-input span { display: flex; align-items: center; padding: 0 12px; color: var(--muted); background: var(--surface); white-space: nowrap; font-size: .92rem; }
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--glow); flex: none; }
+.alert { padding: 12px 14px; border-radius: var(--r); margin-bottom: 18px; font-size: .95rem; }
+.alert.error { background: rgba(238,106,95,.12); color: #FFB3AC; box-shadow: inset 3px 0 0 var(--danger); }
+.alert.info { background: rgba(244,201,93,.1); box-shadow: inset 3px 0 0 var(--glow); }
+.alert.ok { background: rgba(95,214,184,.1); box-shadow: inset 3px 0 0 var(--online); }
+.ok-text { color: var(--online); } .bad-text { color: #FFB3AC; }
+.form-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; font-size: .95rem; }
+
+/* dashboard */
+.page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+.page-head h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); margin: 0; }
+.server-list { display: grid; gap: 14px; }
+.server-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 20px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px;
+}
+.server-row h2 { font-size: 1.25rem; margin: 0; overflow-wrap: anywhere; }
+.server-row h2 a { color: var(--text); text-decoration: none; }
+.server-row h2 a:hover { color: var(--glow); }
+.server-row .meta { color: var(--muted); font-size: .9rem; }
+.row-addr { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row-addr code { font-size: 1.05rem; color: var(--text); background: var(--bg); padding: 8px 12px; border-radius: 4px; overflow-wrap: anywhere; flex: 1 1 260px; }
+.row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.row-note { grid-column: 1 / -1; }
+.empty { padding: 40px; border: 2px dashed var(--line); border-radius: 10px; }
+
+/* wizard */
+.wizard-steps { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 28px; }
+.wizard-steps li { flex: 1; font: 600 .82rem var(--display); color: var(--muted); padding-top: 10px; border-top: 4px solid var(--line); }
+.wizard-steps li[aria-current="step"] { color: var(--text); border-color: var(--glow); }
+.wizard-steps li.done { border-color: rgba(244,201,93,.45); }
+.choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; }
+.choice label { display: block; height: 100%; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); cursor: pointer; }
+.choice label b { display: block; font: 700 1.1rem var(--display); margin-bottom: 4px; }
+.choice label span { color: var(--muted); font-size: .9rem; }
+.choice input:checked + label { border-color: var(--glow); box-shadow: inset 0 0 0 1px var(--glow); }
+.choice input:focus-visible + label { outline: 3px solid var(--glow); outline-offset: 2px; }
+.eula-box { max-height: 280px; overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; font-size: .92rem; white-space: pre-wrap; margin-bottom: 16px; }
+.review { display: grid; grid-template-columns: max-content 1fr; gap: 10px 24px; margin: 0 0 20px; }
+.review dt { color: var(--muted); } .review dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.wizard-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+
+/* server page */
+.server-top h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0 0 18px; overflow-wrap: anywhere; }
+.status-line { margin: 14px 0 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 28px 0; padding: 0; list-style: none; color: var(--muted); font-size: .95rem; }
+.facts b { color: var(--text); }
+.panel { margin-top: 44px; }
+.panel h2 { font-size: 1.3rem; }
+details.panel summary { cursor: pointer; }
+.setup { list-style: none; padding: 0; margin: 0; counter-reset: k; }
+.setup > li { counter-increment: k; position: relative; padding: 0 0 22px 52px; }
+.setup > li::before { content: counter(k); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; display: grid; place-items: center; font: 700 1rem var(--display); background: var(--raised); color: var(--glow); border-radius: 4px; }
+.setup > li:not(:last-child)::after { content: ""; position: absolute; left: 16px; top: 38px; bottom: 4px; width: 2px; background: var(--line); }
+.setup h3 { margin: 4px 0 6px; }
+.setup p { color: var(--muted); }
+.danger-zone { border: 1px solid rgba(238,106,95,.5); border-radius: 10px; padding: 22px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.inline-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.inline-form input { flex: 1 1 200px; }
+
+/* docs */
+.docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+.docs nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 84px); align-self: start; }
+.docs nav a { display: block; color: var(--muted); text-decoration: none; padding: 6px 0; }
+.docs nav a:hover { color: var(--text); }
+.docs article section { margin-bottom: 48px; }
+.docs ol, .docs ul { max-width: var(--measure); padding-left: 1.3em; }
+.docs li { margin-bottom: .5em; }
+.kbd { font: 600 .9em var(--display); background: var(--raised); padding: 1px 6px; border-radius: 3px; }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0 36px; color: var(--muted); font-size: .88rem; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer a { color: var(--muted); }
+
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); transform: translate(-50%, 20px); opacity: 0; background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 6px; font: 600 .95rem var(--display); transition: .2s; pointer-events: none; z-index: 50; max-width: calc(100vw - 32px); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 900px) {
+  .hero, .tradeoff, .two { grid-template-columns: 1fr; gap: 36px; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .docs { grid-template-columns: 1fr; gap: 20px; }
+  .docs nav { position: static; display: flex; flex-wrap: wrap; gap: 0 16px; }
+}
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  main { padding-top: 24px; }
+  .steps, .choices { grid-template-columns: 1fr; }
+  .nav .hide-sm { display: none; }
+  .card { padding: 20px; }
+  .addr-row .btn { width: 100%; }
+  .plate.big .addr { font-size: 1.5rem; padding: 16px; }
+  .server-row { grid-template-columns: 1fr; }
+  .wizard-steps li { font-size: 0; }
+  .wizard-steps li::after { content: attr(data-n); font-size: .82rem; }
+  .wizard-steps li[aria-current="step"]::after { content: attr(data-label); }
+  .demo .plate, .demo-chat { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
 </head>
 <body>
-
-<header class="nav"><div class="wrap nav-in">
-  <a class="brand" href="index.html">
-    <span class="mark"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 1l8 4.5v9L10 19l-8-4.5v-9z" fill="none" stroke="#f6a623" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 1v18M2 5.5l8 4.5 8-4.5" fill="none" stroke="#56b6ff" stroke-width="1.1" stroke-linejoin="round" opacity=".8"/></svg></span>
-    <b>MZ<span>Forge</span></b>
-  </a>
-  <div class="nav-actions">
-    <button class="toggle" id="themeToggle" type="button"><span class="dot"></span><span id="themeLabel">Night</span></button>
-    <a class="btn ghost sm" href="login.html" id="navLogin">Sign in</a>
-    <a class="btn primary sm" href="register.html" id="navStart">Get started</a>
-  </div>
-</div></header>
-
-<div class="hero">
+<a class="sr-only skip" href="#app">Skip to content</a>
+<header class="top">
   <div class="wrap">
-    <span class="kick reveal">NO RENAMING · NO EULA EDITING · JUST RUN IT</span>
-    <h1 class="reveal d1">Set up a <em>Minecraft server</em> without the usual hassle.</h1>
-    <p class="sub reveal d2">Pick your settings here, download one folder, double-click to start. Plugins and mods come pre-installed, and your friends get an address they can actually join.</p>
-    <div class="hero-cta reveal d3">
-      <a class="btn primary big" href="register.html">Build my server <span class="arrow">&rarr;</span></a>
-      <a class="btn ghost big" href="#preview">See it first</a>
-    </div>
-    <div class="chips reveal d4">
-      <span class="chip"><span class="tick"></span> Plugins from Modrinth</span>
-      <span class="chip"><span class="tick"></span> Public address built in</span>
-      <span class="chip"><span class="tick"></span> Paper · Fabric · NeoForge</span>
-      <span class="chip"><span class="tick"></span> Free, no card</span>
-    </div>
+    <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true"></span>MZForge</a>
+    <nav class="nav" id="nav" aria-label="Main"></nav>
   </div>
-  <svg class="horizon" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="#0a0f1f" d="M0,120 L0,70 L80,70 L80,55 L180,55 L180,72 L300,72 L300,48 L420,48 L420,64 L520,64 L520,40 L640,40 L640,60 L760,60 L760,52 L880,52 L880,68 L1000,68 L1000,46 L1120,46 L1120,66 L1200,66 L1200,120 Z"/></svg>
-</div>
-
-<!-- LIVE PREVIEW SHOWCASE -->
-<div class="wrap" id="preview" style="padding-top:26px">
-  <div class="stage reveal">
-    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px">
-      <h2 style="font-family:var(--fd);font-size:24px;font-weight:800;margin:0">Try the preview</h2>
-      <span class="muted" style="font-size:14px">Type below — this is the same renderer the dashboard uses.</span>
-    </div>
-
-    <div class="row" style="margin-top:18px">
-      <div>
-        <div class="fld">
-          <label for="pvMotd">Server name (MOTD)</label>
-          <input id="pvMotd" type="text" maxlength="45" value="§l§bOcean SMP" />
-          <span class="help">Colour codes work: <code>§a</code> green, <code>§l</code> bold, <code>§o</code> italic.</span>
-        </div>
-        <div class="fld">
-          <label for="pvMotd2">Second line</label>
-          <input id="pvMotd2" type="text" maxlength="45" value="§7Season 3 · now open" />
-        </div>
-        <div class="fld">
-          <label>Quick colours</label>
-          <div class="swatches" id="pvSwatches"></div>
-        </div>
-        <div class="row">
-          <div class="fld">
-            <label for="pvPlayers">Max players</label>
-            <input id="pvPlayers" type="number" min="1" max="500" value="20" />
-          </div>
-          <div class="fld">
-            <label for="pvSw">Software</label>
-            <select id="pvSw">
-              <option value="paper">Paper</option>
-              <option value="fabric">Fabric</option>
-              <option value="neoforge">NeoForge</option>
-              <option value="vanilla">Vanilla</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <p class="muted" style="font-size:12px;font-family:var(--fm);letter-spacing:1px;margin:0 0 12px">HOW IT LOOKS IN THE SERVER LIST</p>
-        <div class="mc-list">
-          <div class="mc-row">
-            <div class="mc-icon" id="pvIcon">
-              <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" fill="#3a3a4e"/><rect width="30" height="11" fill="#5fd35f"/><rect y="11" width="30" height="3" fill="#3fae3f"/></svg>
-            </div>
-            <div class="mc-mid">
-              <div class="mc-name" id="pvName">Ocean SMP</div>
-              <div class="mc-motd" id="pvLine2">Season 3 · now open</div>
-            </div>
-            <div class="mc-right">
-              <div class="bars"><i style="height:4px"></i><i style="height:7px"></i><i style="height:10px"></i><i style="height:13px"></i><i style="height:13px"></i></div>
-              <div class="mc-players" id="pvCount">0 / 20</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:14px;padding:16px">
-          <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Software</span><b id="pvSwOut">Paper</b></div>
-          <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Version</span><b>26.1.2</b></div>
-          <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0"><span class="muted">Public address</span><b class="muted" style="font-family:var(--fm);font-size:12px">via playit.gg</b></div>
-        </div>
-
-        <a class="btn primary block" href="register.html" style="margin-top:14px">Build this for real <span class="arrow">&rarr;</span></a>
-      </div>
-    </div>
+</header>
+<main id="app" tabindex="-1"></main>
+<footer>
+  <div class="wrap">
+    <span>MZForge is not affiliated with Mojang or Microsoft. Minecraft is a trademark of Mojang Synergies AB.</span>
+    <span><a href="#/help">Help</a></span>
   </div>
-</div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="ad"><span class="lbl">Advertisement</span><p class="note">Ad space — keeps MZForge free. Paste your ad code here.</p></div>
-
-<div class="wrap how">
-  <div class="how-card reveal"><div class="how-n">1</div><h3>Configure it</h3><p>Software, version, memory, look and add-ons — in a few friendly steps with sensible defaults already set.</p></div>
-  <div class="how-card reveal d1"><div class="how-n">2</div><h3>Download the pack</h3><p>One zip with your config, your plugins already inside, and a start file that handles Java and the server download.</p></div>
-  <div class="how-card reveal d2"><div class="how-n">3</div><h3>Invite friends</h3><p>start.bat quietly brings up a public address, so friends can join from anywhere without touching your router.</p></div>
-</div>
-
-<div class="wrap" style="text-align:center;padding:6px 0 60px">
-  <a class="btn primary big reveal" href="register.html">Create your free account <span class="arrow">&rarr;</span></a>
-</div>
-
-<footer class="foot"><div class="wrap">
-  <a class="brand" href="index.html"><span class="mark"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 1l8 4.5v9L10 19l-8-4.5v-9z" fill="none" stroke="#f6a623" stroke-width="1.4" stroke-linejoin="round"/></svg></span><b>MZ<span>Forge</span></b></a>
-  <small>Generates configs and helper scripts only — never Minecraft binaries. Server files come from PaperMC, FabricMC and NeoForged; add-ons come from Modrinth. Not affiliated with Mojang Studios or Microsoft.</small>
-</div></footer>
-
-<script src="app.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Signed-in visitors get a route straight to the panel.
-  if (Auth.isSignedIn()) {
-    const u = Auth.current();
-    $('#navLogin').textContent = 'Dashboard';
-    $('#navLogin').href = 'dashboard.html';
-    $('#navStart').textContent = `Open ${u.username}'s panel`;
-    $('#navStart').href = 'dashboard.html';
+"use strict";
+// Where the MZForge API lives. "" = same origin (the API serves this page).
+// If you host this file somewhere else, set it to e.g. "https://api.mzforge.com"
+// and add this site's origin to the API's WEB_ORIGINS.
+const API = "";
+
+const LOADERS = {
+  vanilla: { name: "Vanilla", blurb: "The game exactly as Mojang ships it." },
+  paper:   { name: "Paper",   blurb: "Faster, and runs Bukkit and Paper plugins." },
+  fabric:  { name: "Fabric",  blurb: "Lightweight, for Fabric mods." },
+};
+
+const $app = document.getElementById("app");
+const state = { me: undefined, timers: [] };
+const $ = id => document.getElementById(id);
+
+// ---------- helpers ----------
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+// Break long hostnames after dots so they wrap cleanly on phones.
+function addrHTML(host) { return esc(host).replace(/\./g, ".<wbr>"); }
+
+async function api(method, path, body) {
+  const opts = { method, credentials: "include", headers: {} };
+  if (method !== "GET") opts.headers["X-MZForge"] = "1";
+  if (body !== undefined) { opts.headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(body); }
+  let res;
+  try { res = await fetch(API + path, opts); }
+  catch { throw new Error("Can't reach MZForge right now. Check your connection and try again."); }
+  if (res.status === 204) return null;
+  let data = null;
+  try { data = await res.json(); } catch { /* not JSON */ }
+  if (!res.ok) {
+    const err = new Error(sentence(data?.error) || `Request failed (${res.status}).`);
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+function sentence(s) { return s ? s[0].toUpperCase() + s.slice(1) + (/[.!?]$/.test(s) ? "" : ".") : s; }
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2000);
+}
+async function copyText(text, label) {
+  try { await navigator.clipboard.writeText(text); }
+  catch {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); ta.remove();
+  }
+  toast(label || "Copied");
+}
+function ago(iso) {
+  if (!iso || iso.startsWith("0001")) return null;
+  const s = Math.max(0, (Date.now() - new Date(iso)) / 1000);
+  if (s < 60) return "just now";
+  const m = Math.round(s / 60); if (m < 60) return `${m} min ago`;
+  const h = Math.round(s / 3600); if (h < 24) return `${h} hour${h === 1 ? "" : "s"} ago`;
+  const d = Math.round(s / 86400); if (d < 30) return `${d} day${d === 1 ? "" : "s"} ago`;
+  return new Date(iso).toLocaleDateString();
+}
+function dateStr(iso) { return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }); }
+function loaderName(l) { return LOADERS[l]?.name || "Minecraft"; }
+function every(ms, fn) {
+  const id = setInterval(() => { if (document.visibilityState === "visible") fn(); }, ms);
+  state.timers.push(id);
+}
+function download(url) { window.location.href = API + url; }
+function slugify(s) { return s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 32).replace(/-+$/, ""); }
+function setTitle(t) { document.title = t ? `${t} — MZForge` : "MZForge — free Minecraft servers that run on your own PC"; }
+function authFail(e) {
+  if (e.status === 401) { state.me = null; location.hash = "#/login"; return true; }
+  return false;
+}
+
+function statusInfo(sv) {
+  const last = ago(sv.last_seen);
+  const map = {
+    online: ["Online", "Friends can join now."],
+    offline: ["Offline", last ? `Last online ${last}. It comes back when MZForgeLauncher.exe is running on the host PC.` : "Not running right now."],
+    never_started: ["Not started yet", "Run MZForgeLauncher.exe on your PC to bring it online."],
+  };
+  const [label, detail] = map[sv.status] || ["Checking", ""];
+  return { badge: `<span class="status ${esc(sv.status)}"><span class="dot" aria-hidden="true"></span>${label}</span>`, detail };
+}
+
+function plateHTML(sv, { big = false, caption = "Your friends join at", demo = false } = {}) {
+  return `
+  <section class="plate ${big ? "big" : ""}" aria-label="Join address">
+    <div class="plate-head"><span class="plate-caption">${esc(caption)}</span>${statusInfo(sv).badge}</div>
+    <div class="addr-row">
+      <div class="addr">${addrHTML(sv.hostname)}</div>
+      <button class="btn primary" ${demo ? "" : `data-copy="${esc(sv.hostname)}" data-copy-label="Address copied"`}>Copy</button>
+    </div>
+    <p class="plate-foot">In Minecraft, go to Multiplayer, then Add Server, and paste this address. No port needed.<br>
+      Reserved for later: <code>${esc(sv.custom_hostname)}</code> isn't live yet, so share the address above. <a href="#/help/branded">Why?</a></p>
+  </section>`;
+}
+
+// Delegated handlers, attached once.
+document.addEventListener("click", async e => {
+  const c = e.target.closest("[data-copy]");
+  if (c) return copyText(c.dataset.copy, c.dataset.copyLabel);
+  const d = e.target.closest("[data-dl]");
+  if (d) {
+    d.disabled = true; const label = d.textContent; d.textContent = "Preparing…";
+    try { const r = await api("POST", `/servers/${d.dataset.dl}/download`); download(r.download_url); toast("Download started"); }
+    catch (err) { if (!authFail(err)) toast(err.message); }
+    d.disabled = false; d.textContent = label;
+  }
+});
+
+// ---------- nav ----------
+function renderNav(route) {
+  const nav = $("nav");
+  const cur = (...ps) => ps.some(p => route.startsWith(p)) ? ' aria-current="page"' : "";
+  if (state.me) {
+    nav.innerHTML = `
+      <a href="#/dashboard"${cur("dashboard", "servers", "new")}>Servers</a>
+      <a href="#/help" class="hide-sm"${cur("help")}>Help</a>
+      <button class="btn ghost small" id="logout">Log out</button>`;
+    $("logout").onclick = async () => {
+      try { await api("POST", "/auth/logout"); } catch {}
+      state.me = null;
+      if (location.hash === "#/" || !location.hash) router(); else location.hash = "#/";
+    };
+  } else {
+    nav.innerHTML = `
+      <a href="#/help" class="hide-sm"${cur("help")}>Help</a>
+      <a href="#/login"${cur("login")}>Log in</a>
+      <a class="btn primary small" href="#/signup">Sign up</a>`;
+  }
+}
+
+// ---------- router ----------
+const routes = [
+  [/^$/, viewLanding],
+  [/^login(?:\?next=(.*))?$/, viewLogin],
+  [/^signup$/, viewSignup],
+  [/^forgot$/, viewForgot],
+  [/^reset\/([a-f0-9]+)$/, viewReset],
+  [/^dashboard$/, viewDashboard, true],
+  [/^new$/, viewCreate, true],
+  [/^servers\/([a-f0-9]+)(\/setup)?$/, viewServer, true],
+  [/^s\/([a-f0-9]+)$/, viewShare],
+  [/^help(?:\/([a-z-]+))?$/, viewHelp],
+];
+
+async function router() {
+  state.timers.forEach(clearInterval); state.timers = [];
+  const route = location.hash.replace(/^#\/?/, "");
+  if (state.me === undefined) {
+    try { state.me = await api("GET", "/auth/me"); } catch { state.me = null; }
+  }
+  renderNav(route);
+  for (const [re, view, needsAuth] of routes) {
+    const m = route.match(re);
+    if (!m) continue;
+    if (needsAuth && !state.me) { location.hash = "#/login?next=" + encodeURIComponent(route); return; }
+    await view(...m.slice(1));
+    if (!/^help\/./.test(route)) window.scrollTo(0, 0);
+    return;
+  }
+  setTitle("Page not found");
+  $app.innerHTML = `<div class="wrap narrow"><h1>Page not found</h1><p><a href="#/">Go to the home page</a></p></div>`;
+}
+window.addEventListener("hashchange", router);
+
+// ---------- landing ----------
+function viewLanding() {
+  setTitle("");
+  const demo = { hostname: "mzf-7c2e19a04b3d58f6.play.minekube.net", custom_hostname: "fridaynight.mc.mzforge.com", status: "online" };
+  $app.innerHTML = `
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Your PC runs the server. We give it an address.</h1>
+        <p class="lede">Free Minecraft Java servers without the queue. MZForge runs the server on your own computer and tunnels it out, so friends can join from anywhere. No port forwarding.</p>
+        <div class="cta-row">
+          ${state.me ? `<a class="btn primary" href="#/new">Create a server</a><a class="btn ghost" href="#/dashboard">Your servers</a>`
+                     : `<a class="btn primary" href="#/signup">Create a free server</a><a class="btn ghost" href="#/help">Read how it works</a>`}
+        </div>
+      </div>
+      <div class="demo" aria-hidden="true" inert>
+        ${plateHTML(demo, { caption: "What your friends get", demo: true })}
+        <div class="demo-chat"><b>you:</b> server's up, paste this into Multiplayer</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>How it works</h2>
+      <p class="muted">About five minutes the first time. After that, starting your server is one double-click.</p>
+      <ol class="steps">
+        <li><h3>Create it here</h3><p>Pick a name, a Minecraft version, and Vanilla, Paper, or Fabric. You get a permanent join address.</p></li>
+        <li><h3>Download and add server.jar</h3><p>Unzip the launcher, then grab the official server.jar from Mojang, Paper, or Fabric. We link you straight to it.</p></li>
+        <li><h3>Run the launcher</h3><p>Double-click MZForgeLauncher.exe. It starts Minecraft and connects it to the internet through Minekube's free tunnel.</p></li>
+        <li><h3>Send friends the address</h3><p>They paste it into Multiplayer. Your server stays up as long as the launcher window stays open.</p></li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>What's different about hosting on your own PC</h2>
+      <div class="tradeoff">
+        <div>
+          <h3>What you get</h3>
+          <ul>
+            <li>No queue. It starts the moment you double-click.</li>
+            <li>Your hardware sets the limits, not a free tier. Invite as many friends and add as many plugins as your PC can handle.</li>
+            <li>Your world lives in a folder on your PC. Nobody deletes it for inactivity, and you can back it up whenever you like.</li>
+            <li>It's free, with no ads in your server and no forced plugins.</li>
+          </ul>
+        </div>
+        <div class="needs">
+          <h3>What it needs from you</h3>
+          <ul>
+            <li>A Windows PC with memory to spare. The launcher gives Minecraft up to 4 GB.</li>
+            <li>Java installed. We tell you which version your Minecraft version needs.</li>
+            <li>The PC stays on while people play. When it sleeps or shuts down, so does the server.</li>
+            <li>A one-time download of server.jar. We don't bundle it, so you always run the official file.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>`;
+}
+
+// ---------- auth views ----------
+function pwField(id, label, autocomplete, hint = "") {
+  return `<div class="field"><label for="${id}">${label}</label>
+    <div class="pw"><input id="${id}" type="password" autocomplete="${autocomplete}" required minlength="8" maxlength="72">
+    <button type="button" data-toggle="${id}" aria-label="Show password">Show</button></div>
+    ${hint ? `<div class="hint">${hint}</div>` : ""}</div>`;
+}
+function wirePwToggles() {
+  $app.querySelectorAll("[data-toggle]").forEach(b => b.onclick = () => {
+    const i = $(b.dataset.toggle);
+    const show = i.type === "password"; i.type = show ? "text" : "password";
+    b.textContent = show ? "Hide" : "Show"; b.setAttribute("aria-label", show ? "Hide password" : "Show password");
+  });
+}
+function formError(msg, extraHTML = "") {
+  const el = $("err"); if (!el) return;
+  el.innerHTML = msg ? `<div class="alert error" role="alert">${esc(msg)} ${extraHTML}</div>` : "";
+}
+function busy(btn, on, text) { btn.disabled = on; if (text) btn.textContent = text; }
+
+function viewLogin(next) {
+  setTitle("Log in");
+  if (state.me) { location.hash = "#/dashboard"; return; }
+  next = next ? decodeURIComponent(next) : "";
+  $app.innerHTML = `
+  <div class="wrap"><div class="auth">
+    <h1>Log in</h1>
+    <form class="card" id="f" novalidate>
+      <div id="err"></div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+      ${pwField("password", "Password", "current-password")}
+      <button class="btn primary block" id="go">Log in</button>
+      <div class="form-foot"><a href="#/forgot">Forgot password?</a><span>New here? <a href="#/signup">Sign up</a></span></div>
+    </form>
+  </div></div>`;
+  wirePwToggles();
+  $("email").focus();
+  $("f").onsubmit = async e => {
+    e.preventDefault();
+    const btn = $("go"); busy(btn, true, "Logging in…");
+    try {
+      state.me = await api("POST", "/auth/login", { email: $("email").value, password: $("password").value });
+      location.hash = "#/" + (/^(dashboard|new|servers\/[a-f0-9]+(\/setup)?)$/.test(next) ? next : "dashboard");
+    } catch (err) { formError(err.message); busy(btn, false, "Log in"); }
+  };
+}
+
+function viewSignup() {
+  setTitle("Sign up");
+  if (state.me) { location.hash = "#/dashboard"; return; }
+  $app.innerHTML = `
+  <div class="wrap"><div class="auth">
+    <h1>Create your account</h1>
+    <p class="muted">Free. You'll make your first server right after.</p>
+    <form class="card" id="f" novalidate>
+      <div id="err"></div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required>
+        <div class="hint">Only used for logging in and password resets.</div></div>
+      ${pwField("password", "Password", "new-password", "At least 8 characters.")}
+      <button class="btn primary block" id="go">Create account</button>
+      <div class="form-foot"><span>Already have one? <a href="#/login">Log in</a></span></div>
+    </form>
+  </div></div>`;
+  wirePwToggles();
+  $("email").focus();
+  $("f").onsubmit = async e => {
+    e.preventDefault();
+    if ($("password").value.length < 8) return formError("Password must be at least 8 characters.");
+    const btn = $("go"); busy(btn, true, "Creating account…");
+    try {
+      state.me = await api("POST", "/auth/signup", { email: $("email").value, password: $("password").value });
+      location.hash = "#/new";
+    } catch (err) { formError(err.message, err.status === 409 ? `<a href="#/login">Log in</a>` : ""); busy(btn, false, "Create account"); }
+  };
+}
+
+function viewForgot() {
+  setTitle("Reset password");
+  $app.innerHTML = `
+  <div class="wrap"><div class="auth">
+    <h1>Reset your password</h1>
+    <form class="card" id="f" novalidate>
+      <div id="err"></div>
+      <p class="muted">Enter your account email and we'll send a reset link. It works once and expires in an hour.</p>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+      <button class="btn primary block" id="go">Send reset link</button>
+      <div class="form-foot"><a href="#/login">Back to log in</a></div>
+    </form>
+  </div></div>`;
+  $("email").focus();
+  $("f").onsubmit = async e => {
+    e.preventDefault();
+    const btn = $("go"); busy(btn, true, "Sending…");
+    try {
+      const r = await api("POST", "/auth/forgot", { email: $("email").value });
+      $("f").innerHTML = `<div class="alert ok" role="status">${esc(r.message)}</div><p class="muted">Check your spam folder if it hasn't arrived in a few minutes.</p><a href="#/login">Back to log in</a>`;
+    } catch (err) { formError(err.message); busy(btn, false, "Send reset link"); }
+  };
+}
+
+function viewReset(token) {
+  setTitle("Choose a new password");
+  $app.innerHTML = `
+  <div class="wrap"><div class="auth">
+    <h1>Choose a new password</h1>
+    <form class="card" id="f" novalidate>
+      <div id="err"></div>
+      ${pwField("password", "New password", "new-password", "At least 8 characters. Saving it signs you out everywhere else.")}
+      <button class="btn primary block" id="go">Save new password</button>
+    </form>
+  </div></div>`;
+  wirePwToggles();
+  $("password").focus();
+  $("f").onsubmit = async e => {
+    e.preventDefault();
+    if ($("password").value.length < 8) return formError("Password must be at least 8 characters.");
+    const btn = $("go"); busy(btn, true, "Saving…");
+    try {
+      await api("POST", "/auth/reset", { token, password: $("password").value });
+      state.me = null; renderNav("reset");
+      $("f").innerHTML = `<div class="alert ok" role="status">Password saved.</div><a class="btn primary block" href="#/login">Log in</a>`;
+    } catch (err) { formError(err.message, `<a href="#/forgot">Request a new link</a>`); busy(btn, false, "Save new password"); }
+  };
+}
+
+// ---------- dashboard ----------
+async function viewDashboard() {
+  setTitle("Your servers");
+  $app.innerHTML = `<div class="wrap"><div class="page-head"><h1>Your servers</h1></div><p class="muted">Loading…</p></div>`;
+  let data;
+  try { data = await api("GET", "/servers"); }
+  catch (e) { if (!authFail(e)) $app.innerHTML = `<div class="wrap"><div class="alert error">${esc(e.message)}</div></div>`; return; }
+
+  const draw = d => {
+    const full = d.servers.length >= d.limit;
+    const list = d.servers.map(sv => {
+      const st = statusInfo(sv);
+      return `
+      <article class="server-row">
+        <div>
+          <h2><a href="#/servers/${esc(sv.server_id)}">${esc(sv.name)}</a></h2>
+          <div class="meta">${esc(loaderName(sv.loader))} ${esc(sv.mc_version)}, created ${esc(dateStr(sv.created_at))}</div>
+        </div>
+        <div>${st.badge}</div>
+        <div class="row-addr">
+          <code>${addrHTML(sv.hostname)}</code>
+          <div class="row-actions">
+            <button class="btn small" data-copy="${esc(sv.hostname)}" data-copy-label="Address copied">Copy address</button>
+            <button class="btn small ghost" data-dl="${esc(sv.server_id)}">Download again</button>
+            <a class="btn small ghost" href="#/servers/${esc(sv.server_id)}">Manage</a>
+          </div>
+        </div>
+        ${sv.status !== "online" ? `<div class="meta row-note">${esc(st.detail)}</div>` : ""}
+      </article>`;
+    }).join("");
+    return `
+    <div class="wrap">
+      <div class="page-head">
+        <div><h1>Your servers</h1><p class="muted" style="margin:6px 0 0">${d.servers.length} of ${d.limit} used. Status updates on its own.</p></div>
+        ${full ? `<span class="muted small">Delete a server to make room for another.</span>` : `<a class="btn primary" href="#/new">Create server</a>`}
+      </div>
+      ${d.servers.length ? `<div class="server-list">${list}</div>` : `
+      <div class="empty">
+        <h2>No servers yet</h2>
+        <p class="muted">Create one, download the launcher, and you'll have an address to send friends in a few minutes.</p>
+        <a class="btn primary" href="#/new">Create your first server</a>
+      </div>`}
+    </div>`;
+  };
+  $app.innerHTML = draw(data);
+  every(20000, async () => {
+    try { const d = await api("GET", "/servers"); if (location.hash === "#/dashboard" && !$app.contains(document.activeElement)) $app.innerHTML = draw(d); } catch {}
+  });
+}
+
+// ---------- create wizard ----------
+async function viewCreate() {
+  setTitle("Create a server");
+  const w = { step: 0, name: "", slug: "", slugEdited: false, slugOK: false, loader: "paper", version: "", versions: [], eula: null, accepted: false };
+  $app.innerHTML = `<div class="wrap narrow"><p class="muted">Loading…</p></div>`;
+  try {
+    const [v, e, me] = await Promise.all([api("GET", "/meta/versions"), api("GET", "/meta/eula"), api("GET", "/auth/me")]);
+    w.versions = v.versions; w.version = v.versions[0]; w.eula = e; state.me = me;
+  } catch (err) { if (!authFail(err)) $app.innerHTML = `<div class="wrap narrow"><div class="alert error">${esc(err.message)}</div></div>`; return; }
+
+  if (state.me.server_count >= state.me.server_limit) {
+    $app.innerHTML = `<div class="wrap narrow"><h1>You're at the limit</h1>
+      <p>Each account can have ${state.me.server_limit} servers for now. Delete one you don't use to make room.</p>
+      <a class="btn primary" href="#/dashboard">Go to your servers</a></div>`;
+    return;
   }
 
-  // Reveal on load.
-  requestAnimationFrame(() => $$('.reveal').forEach(el => el.classList.add('in')));
+  const STEPS = ["Name", "Software", "EULA", "Create"];
+  let slugTimer, slugSeq = 0;
 
-  // ---- live preview ----
-  const swatches = [['§f','#ffffff'],['§a','#55ff55'],['§e','#ffff55'],['§6','#ffaa00'],
-                    ['§b','#55ffff'],['§d','#ff55ff'],['§c','#ff5555'],['§9','#5555ff'],['§7','#aaaaaa']];
-  const wrap = $('#pvSwatches');
-  swatches.forEach(([code, hex]) => {
-    const el = document.createElement('span');
-    el.className = 'sw';
-    el.style.background = hex;
-    el.title = `Insert ${code}`;
-    el.addEventListener('click', () => {
-      const input = $('#pvMotd');
-      input.value = code + input.value.replace(/^(§[0-9a-fk-or])+/i, '');
-      paint();
-    });
-    wrap.appendChild(el);
+  const frame = inner => `
+    <div class="wrap narrow">
+      <h1>Create a server</h1>
+      <ol class="wizard-steps">${STEPS.map((s, i) => `<li data-n="${i + 1}" data-label="${i + 1}. ${s}" class="${i < w.step ? "done" : ""}" ${i === w.step ? 'aria-current="step"' : ""}>${i + 1}. ${s}</li>`).join("")}</ol>
+      <form class="card" id="f" novalidate><div id="err"></div>${inner}</form>
+    </div>`;
+
+  function draw() {
+    if (w.step === 0) {
+      $app.innerHTML = frame(`
+        <div class="field"><label for="name">Server name</label>
+          <input id="name" type="text" maxlength="48" autocomplete="off" value="${esc(w.name)}" placeholder="Friday Night SMP">
+          <div class="hint">Shown on your dashboard. You can rename it any time.</div></div>
+        <div class="field"><label for="slug">Short name</label>
+          <div class="slug-input"><input id="slug" type="text" maxlength="32" autocomplete="off" spellcheck="false" autocapitalize="off" value="${esc(w.slug)}" aria-describedby="slug-msg slug-hint"><span>.mc.mzforge.com</span></div>
+          <div class="hint" id="slug-msg" aria-live="polite"></div>
+          <div class="hint" id="slug-hint">Reserves your branded address for when it goes live. Lowercase letters, numbers, and hyphens. This can't be changed later.</div></div>
+        <div class="wizard-nav"><a class="btn ghost" href="#/dashboard">Cancel</a><button class="btn primary" id="next">Next</button></div>`);
+      const name = $("name"), slug = $("slug");
+      name.focus();
+      name.oninput = () => { w.name = name.value; if (!w.slugEdited) { slug.value = slugify(name.value); checkSlug(slug.value); } };
+      slug.oninput = () => { w.slugEdited = true; const v = slug.value.toLowerCase().replace(/[^a-z0-9-]/g, ""); if (v !== slug.value) slug.value = v; checkSlug(v); };
+      if (w.slug) checkSlug(w.slug, true);
+    } else if (w.step === 1) {
+      $app.innerHTML = frame(`
+        <fieldset style="border:0;padding:0;margin:0 0 20px"><legend class="label">Server software</legend>
+          <div class="choices">${Object.entries(LOADERS).map(([k, l]) => `
+            <div class="choice"><input type="radio" name="loader" id="l-${k}" value="${k}" ${w.loader === k ? "checked" : ""}>
+            <label for="l-${k}"><b>${l.name}</b><span>${l.blurb}</span></label></div>`).join("")}</div>
+          <div class="hint">Forge support is coming later.</div>
+        </fieldset>
+        <div class="field"><label for="version">Minecraft version</label>
+          <select id="version">${w.versions.map(v => `<option ${v === w.version ? "selected" : ""}>${esc(v)}</option>`).join("")}</select>
+          <div class="hint">Players join with this same version. Paper and Fabric builds can arrive a few days after a new Minecraft release.</div></div>
+        <div class="wizard-nav"><button type="button" class="btn ghost" id="back">Back</button><button class="btn primary" id="next">Next</button></div>`);
+      $app.querySelectorAll("[name=loader]").forEach(r => r.onchange = () => w.loader = r.value);
+      $("version").onchange = e => w.version = e.target.value;
+    } else if (w.step === 2) {
+      const text = w.eula.text;
+      $app.innerHTML = frame(`
+        <h2>Minecraft End User License Agreement</h2>
+        <p>Every Minecraft server has to accept Mojang's EULA before it will start. Read it, then confirm below.</p>
+        ${text ? `<div class="eula-box" tabindex="0" aria-label="Minecraft EULA text">${esc(text)}</div>
+                  <p class="small muted">Official version: <a href="${esc(w.eula.url)}" target="_blank" rel="noopener">${esc(w.eula.url)}</a></p>`
+               : `<div class="alert info">Read the full EULA on Mojang's site: <a href="${esc(w.eula.url)}" target="_blank" rel="noopener">open the Minecraft EULA</a> (new tab).</div>`}
+        <label class="check"><input type="checkbox" id="accept" ${w.accepted ? "checked" : ""}>
+          <span>I have read and agree to the Minecraft End User License Agreement.</span></label>
+        <div class="wizard-nav"><button type="button" class="btn ghost" id="back">Back</button><button class="btn primary" id="next" ${w.accepted ? "" : "disabled"}>Next</button></div>`);
+      const acc = $("accept");
+      acc.onchange = () => { w.accepted = acc.checked; $("next").disabled = !acc.checked; };
+    } else {
+      const src = { vanilla: "Mojang", paper: "PaperMC", fabric: "FabricMC" }[w.loader];
+      $app.innerHTML = frame(`
+        <h2>Check and create</h2>
+        <dl class="review">
+          <dt>Name</dt><dd>${esc(w.name.trim() || w.slug)}</dd>
+          <dt>Software</dt><dd>${esc(loaderName(w.loader))} ${esc(w.version)}</dd>
+          <dt>Reserved address</dt><dd>${esc(w.slug)}.mc.mzforge.com</dd>
+          <dt>EULA</dt><dd>Accepted</dd>
+        </dl>
+        <div class="alert info">Creating it downloads a ZIP with the launcher. To run it you'll also need <b>server.jar</b> from ${src} and Java installed. The next page walks you through both.</div>
+        <div class="wizard-nav"><button type="button" class="btn ghost" id="back">Back</button><button class="btn primary" id="next">Create server and download</button></div>`);
+    }
+    const back = $("back");
+    if (back) back.onclick = () => { w.step--; draw(); };
+    $("f").onsubmit = onNext;
+  }
+
+  function checkSlug(v, immediate) {
+    w.slug = v; w.slugOK = false;
+    const msg = $("slug-msg");
+    clearTimeout(slugTimer); slugSeq++;
+    if (!v) { msg.textContent = ""; return; }
+    if (v.length < 3) { msg.innerHTML = `<span class="bad-text">Use at least 3 characters.</span>`; return; }
+    msg.textContent = "Checking…";
+    const seq = slugSeq;
+    slugTimer = setTimeout(async () => {
+      try {
+        const r = await api("GET", "/slug-available?slug=" + encodeURIComponent(v));
+        if (seq !== slugSeq) return;
+        w.slugOK = r.available;
+        msg.innerHTML = r.available ? `<span class="ok-text">${esc(v)}.mc.mzforge.com is available.</span>`
+                                    : `<span class="bad-text">${esc(sentence(r.reason))}</span>`;
+      } catch (e) { if (seq === slugSeq) msg.innerHTML = `<span class="bad-text">${esc(e.message)}</span>`; }
+    }, immediate ? 0 : 350);
+  }
+
+  async function onNext(e) {
+    e.preventDefault();
+    if (w.step === 0) {
+      if (!w.slugOK) return formError(w.slug ? "Pick an available short name first." : "Enter a short name for your server.");
+      w.step++; return draw();
+    }
+    if (w.step === 1) { w.step++; return draw(); }
+    if (w.step === 2) { if (w.accepted) { w.step++; draw(); } return; }
+    const btn = $("next"); busy(btn, true, "Creating…");
+    try {
+      const r = await api("POST", "/allocate", { slug: w.slug, name: w.name.trim() || w.slug, loader: w.loader, mc_version: w.version, eula_accepted: w.accepted });
+      download(r.download_url);
+      setTimeout(() => { location.hash = `#/servers/${r.server_id}/setup`; }, 300);
+    } catch (err) {
+      if (authFail(err)) return;
+      if (err.status === 409) { w.step = 0; w.slugOK = false; draw(); }
+      else busy(btn, false, "Create server and download");
+      formError(err.message);
+    }
+  }
+  draw();
+}
+
+// ---------- server page (owner) ----------
+async function viewServer(id, setup) {
+  $app.innerHTML = `<div class="wrap"><p class="muted">Loading…</p></div>`;
+  let sv;
+  try { sv = await api("GET", `/servers/${id}`); }
+  catch (e) {
+    if (authFail(e)) return;
+    setTitle("Server not found");
+    $app.innerHTML = `<div class="wrap narrow"><h1>Server not found</h1><p>It may have been deleted.</p><a class="btn" href="#/dashboard">Back to your servers</a></div>`;
+    return;
+  }
+  setTitle(sv.name);
+  const showSetup = !!setup || sv.status === "never_started";
+  let jar = null;
+  if (showSetup) { try { jar = await api("GET", `/meta/server-jar?loader=${sv.loader}&version=${encodeURIComponent(sv.mc_version)}`); } catch {} }
+
+  const shareURL = `${location.origin}${location.pathname}#/s/${sv.server_id}`;
+  const detailText = s => statusInfo(s).detail + (s.status === "online" && s.live_version ? ` Running ${s.live_version}.` : "");
+  $app.innerHTML = `
+  <div class="wrap">
+    <p class="small"><a href="#/dashboard">Your servers</a></p>
+    <div class="server-top"><h1 id="sname">${esc(sv.name)}</h1></div>
+    ${setup ? `<div class="alert ok" role="status">Server created. Your download should have started. If it didn't, use Download again below.</div>` : ""}
+    <div id="plate">${plateHTML(sv, { big: true })}</div>
+    <p class="status-line muted" id="sdetail">${esc(detailText(sv))}</p>
+
+    <ul class="facts">
+      <li>Software <b>${esc(loaderName(sv.loader))} ${esc(sv.mc_version)}</b></li>
+      <li>Created <b>${esc(dateStr(sv.created_at))}</b></li>
+      <li>Short name <b>${esc(sv.slug)}</b></li>
+    </ul>
+    <div class="cta-row" style="margin-top:0">
+      <button class="btn" data-dl="${esc(sv.server_id)}">Download again</button>
+      <button class="btn ghost" data-copy="${esc(shareURL)}" data-copy-label="Status page link copied">Copy status page link</button>
+    </div>
+    <p class="small muted" style="margin-top:10px">The status page lets friends check whether the server is up. Anyone with the link can see its name and address.</p>
+
+    ${showSetup ? setupHTML(sv, jar) : ""}
+
+    <div class="panel two">
+      <section>
+        <h2>Rename</h2>
+        <form class="inline-form" id="rename"><label class="sr-only" for="newname">Server name</label>
+          <input id="newname" type="text" maxlength="48" value="${esc(sv.name)}"><button class="btn">Save name</button></form>
+        <p class="hint">Only changes the name shown on MZForge. The join address stays the same.</p>
+      </section>
+      <section class="danger-zone">
+        <h2>Delete server</h2>
+        <p class="muted small">Removes it from your account and permanently releases <b>${esc(sv.slug)}.mc.mzforge.com</b>. World files on your PC aren't touched, but the launcher from this download stops working.</p>
+        <form id="del"><label class="label" for="confirm">Type ${esc(sv.slug)} to confirm</label>
+          <div class="inline-form"><input id="confirm" type="text" autocomplete="off" spellcheck="false" autocapitalize="off"><button class="btn danger" id="delbtn" disabled>Delete server</button></div></form>
+      </section>
+    </div>
+    ${!showSetup ? `<details class="panel" id="moresetup"><summary class="label">Setup steps</summary><div id="setupbody"></div></details>` : ""}
+  </div>`;
+
+  $("rename").onsubmit = async e => {
+    e.preventDefault();
+    try { const r = await api("PATCH", `/servers/${id}`, { name: $("newname").value }); $("sname").textContent = r.name; setTitle(r.name); toast("Name saved"); }
+    catch (err) { if (!authFail(err)) toast(err.message); }
+  };
+  const confirmI = $("confirm"), delbtn = $("delbtn");
+  confirmI.oninput = () => delbtn.disabled = confirmI.value.trim() !== sv.slug;
+  $("del").onsubmit = async e => {
+    e.preventDefault();
+    if (confirmI.value.trim() !== sv.slug) return;
+    busy(delbtn, true, "Deleting…");
+    try { await api("DELETE", `/servers/${id}`); toast("Server deleted"); location.hash = "#/dashboard"; }
+    catch (err) { if (!authFail(err)) { toast(err.message); busy(delbtn, false, "Delete server"); } }
+  };
+  const more = $("moresetup");
+  if (more) more.addEventListener("toggle", async () => {
+    if (!more.open || more.dataset.loaded) return;
+    more.dataset.loaded = "1";
+    let j = null;
+    try { j = await api("GET", `/meta/server-jar?loader=${sv.loader}&version=${encodeURIComponent(sv.mc_version)}`); } catch {}
+    $("setupbody").innerHTML = setupHTML(sv, j, false);
   });
 
-  function paint() {
-    $('#pvName').innerHTML = renderMotd($('#pvMotd').value || 'My Server');
-    $('#pvLine2').innerHTML = renderMotd($('#pvMotd2').value || '');
-    const max = clampInt($('#pvPlayers').value, 1, 500, 20);
-    $('#pvCount').textContent = `0 / ${max}`;
-    $('#pvSwOut').textContent = SWNAME[$('#pvSw').value];
+  every(15000, async () => {
+    try {
+      const n = await api("GET", `/servers/${id}`);
+      if (!location.hash.startsWith(`#/servers/${id}`)) return;
+      if (!$("plate").contains(document.activeElement)) $("plate").innerHTML = plateHTML(n, { big: true });
+      $("sdetail").textContent = detailText(n);
+    } catch {}
+  });
+}
+
+function setupHTML(sv, jar, withHeading = true) {
+  const java = jar?.java || "the Java version your Minecraft version needs";
+  let jarStep;
+  if (jar?.direct_url) {
+    jarStep = `<p>Download the official Minecraft ${esc(sv.mc_version)} server file from Mojang. It's already named server.jar. Put it in the same folder as MZForgeLauncher.exe.</p>
+      <a class="btn" href="${esc(jar.direct_url)}" rel="noopener">Download server.jar from Mojang</a>`;
+  } else if (jar) {
+    jarStep = `<p>${esc(jar.instruction)}</p><a class="btn" href="${esc(jar.page_url)}" target="_blank" rel="noopener">Open ${esc(jar.source_name)} downloads</a>`;
+  } else {
+    jarStep = `<p>Download the ${esc(loaderName(sv.loader))} ${esc(sv.mc_version)} server jar from its official site, rename it to server.jar, and put it next to MZForgeLauncher.exe. <a href="#/help/server-jar">Where to get it</a></p>`;
   }
-  ['pvMotd','pvMotd2','pvPlayers','pvSw'].forEach(id => $('#'+id).addEventListener('input', paint));
-  paint();
-});
+  return `
+  <section class="${withHeading ? "panel" : ""}">
+    ${withHeading ? "<h2>Get it running</h2>" : ""}
+    <ol class="setup">
+      <li><h3>Unzip the download</h3><p>Extract mzforge-${esc(sv.slug)}.zip into its own folder, such as Documents\\MZForge\\${esc(sv.slug)}. Your world gets saved there, so don't run it from inside the ZIP or your Downloads preview.</p></li>
+      <li><h3>Add server.jar</h3>${jarStep}</li>
+      <li><h3>Install ${esc(java)}</h3><p>Skip this if you already have it. The free Temurin build from Adoptium works well.</p>
+        <a class="btn ghost" href="https://adoptium.net/temurin/releases/" target="_blank" rel="noopener">Open Adoptium</a></li>
+      <li><h3>Double-click MZForgeLauncher.exe</h3><p>Windows may warn about an unrecognized app the first time. Choose <span class="kbd">More info</span>, then <span class="kbd">Run anyway</span>. Keep the window open. When it says SERVER ONLINE, this page turns green.</p></li>
+      <li><h3>Send friends the address above</h3><p>They add it under Multiplayer. <a href="#/help/troubleshooting">Something not working?</a></p></li>
+    </ol>
+  </section>`;
+}
+
+// ---------- public share page ----------
+async function viewShare(id) {
+  $app.innerHTML = `<div class="wrap narrow"><p class="muted">Loading…</p></div>`;
+  let data;
+  try { data = await api("GET", `/status?server_id=${id}`); }
+  catch {
+    setTitle("Server not found");
+    $app.innerHTML = `<div class="wrap narrow"><h1>Server not found</h1><p>This link doesn't point to a server anymore. Ask whoever sent it for a new one.</p></div>`;
+    return;
+  }
+  const draw = d => {
+    const sv = d.server, last = ago(sv.last_seen);
+    setTitle(sv.name);
+    const line = sv.status === "online" ? "The server is up right now."
+      : sv.status === "never_started" ? "This server hasn't been started yet."
+      : `It's offline. It runs on its owner's PC, so it's up whenever they have MZForge open.${last ? ` Last online ${last}.` : ""}`;
+    return `
+    <div class="wrap narrow">
+      <h1>${esc(sv.name)}</h1>
+      <p class="muted">${esc(loaderName(sv.loader))} ${esc(sv.mc_version)}. Join with the same Minecraft version.</p>
+      ${plateHTML(sv, { big: true, caption: "Join address" })}
+      <p class="status-line muted">${esc(line)} This page checks again every 20 seconds.</p>
+      ${sv.owned ? `<p><a href="#/servers/${esc(sv.server_id)}">Manage this server</a></p>`
+                 : `<p class="small muted" style="margin-top:36px">Want your own? <a href="#/">MZForge</a> gives you a free server that runs on your PC.</p>`}
+    </div>`;
+  };
+  $app.innerHTML = draw(data);
+  every(20000, async () => {
+    try { const d = await api("GET", `/status?server_id=${id}`); if (location.hash === `#/s/${id}` && !$app.contains(document.activeElement)) $app.innerHTML = draw(d); } catch {}
+  });
+}
+
+// ---------- help ----------
+function viewHelp(anchor) {
+  setTitle("Help");
+  const toc = [
+    ["how", "How MZForge works"], ["needs", "What you need"], ["server-jar", "Getting server.jar"],
+    ["java", "Java"], ["running", "Running your server"], ["antivirus", "Windows and antivirus warnings"],
+    ["troubleshooting", "Friends can't join"], ["branded", "The .mc.mzforge.com address"], ["world", "Your world and backups"],
+  ];
+  $app.innerHTML = `
+  <div class="wrap">
+    <h1>Help</h1>
+    <div class="docs">
+      <nav aria-label="Help topics">${toc.map(([id, t]) => `<a href="#/help/${id}">${t}</a>`).join("")}</nav>
+      <article>
+        <section id="h-how"><h2>How MZForge works</h2>
+          <p>Your Minecraft server runs on your own computer, not on ours. MZForgeLauncher.exe starts it and opens an outgoing connection to <a href="https://connect.minekube.com" target="_blank" rel="noopener">Minekube Connect</a>, a free tunnel network. Players join through Minekube's address, and the traffic comes through that tunnel to your PC.</p>
+          <p>Because nothing runs on our side, this website can't start, stop, or restart your server, and it has no console or file access. It gives you the address and the launcher, and shows whether the server is up.</p></section>
+
+        <section id="h-needs"><h2>What you need</h2>
+          <ul>
+            <li>A Windows PC. The launcher gives Minecraft up to 4 GB of memory, so 8 GB of RAM or more in total is comfortable.</li>
+            <li>Java, matched to your Minecraft version (see below).</li>
+            <li>The server.jar file for the software you picked.</li>
+            <li>A steady internet connection. Upload speed matters most.</li>
+          </ul></section>
+
+        <section id="h-server-jar"><h2>Getting server.jar</h2>
+          <p>The download doesn't include server.jar. We don't redistribute Mojang's server software; you get it directly from the people who make it. It's a one-time step per server, and your server page links to the right place for your version.</p>
+          <ul>
+            <li><b>Vanilla:</b> the official file from Mojang. Your server page links straight to the exact version, already named server.jar.</li>
+            <li><b>Paper:</b> from <a href="https://papermc.io/downloads/paper" target="_blank" rel="noopener">papermc.io</a>. Pick your version, download it, and rename the file to server.jar. Plugins go in a folder called plugins.</li>
+            <li><b>Fabric:</b> from <a href="https://fabricmc.net/use/server/" target="_blank" rel="noopener">fabricmc.net</a>. Choose your Minecraft version, download the executable server jar, and rename it to server.jar. Mods go in a folder called mods.</li>
+          </ul>
+          <p>Put server.jar in the same folder as MZForgeLauncher.exe. If the launcher says it can't find server.jar, check the file isn't actually named server.jar.jar. Windows hides file extensions by default; turn on File name extensions in File Explorer's View menu to see them.</p></section>
+
+        <section id="h-java"><h2>Java</h2>
+          <p>Minecraft 1.20.5 and newer need Java 21. Versions 1.18 to 1.20.4 need Java 17, and older versions generally need Java 8. Your server page shows the exact one for your server.</p>
+          <p>The free <a href="https://adoptium.net/temurin/releases/" target="_blank" rel="noopener">Temurin build from Adoptium</a> is a good choice. During install, turn on the option that adds Java to PATH. If the launcher window closes right away, or mentions an unsupported class version, you have the wrong Java version.</p></section>
+
+        <section id="h-running"><h2>Running your server</h2>
+          <ol>
+            <li>Double-click MZForgeLauncher.exe. The first start takes longer while Minecraft generates the world.</li>
+            <li>Wait for SERVER ONLINE. The launcher checks the public address itself before it says so.</li>
+            <li>Leave the window open. Closing it saves the world and takes the server offline.</li>
+          </ol>
+          <p>If your PC goes to sleep, the server stops responding. For long sessions, change the sleep setting in Windows Settings, under System, then Power, while you're hosting.</p>
+          <p>Run one copy at a time. The launcher refuses to start twice.</p></section>
+
+        <section id="h-antivirus"><h2>Windows and antivirus warnings</h2>
+          <p>MZForgeLauncher.exe is new and not yet code-signed, so Windows SmartScreen may say "Windows protected your PC". Choose <span class="kbd">More info</span>, then <span class="kbd">Run anyway</span>. Some antivirus tools flag unsigned programs that open network connections; you can add an exception for your MZForge folder.</p>
+          <p>Only run a launcher you downloaded from your own MZForge dashboard. If you're unsure about a copy, delete the folder and use Download again.</p>
+          <p>If Windows Firewall asks about Java, allowing it on private networks is fine. No port forwarding or router setup is needed, because the tunnel connects outward.</p></section>
+
+        <section id="h-troubleshooting"><h2>Friends can't join</h2>
+          <ul>
+            <li><b>Your server page says Offline.</b> The launcher isn't running, the PC is asleep, or it lost its internet connection. Start the launcher again.</li>
+            <li><b>It says Online, but a friend can't connect.</b> Check they pasted the full address and are on the same Minecraft version as the server.</li>
+            <li><b>"Outdated client" or "Outdated server".</b> Their game version doesn't match. They can pick a version in the Minecraft Launcher's Installations tab.</li>
+            <li><b>The launcher says the public address isn't answering.</b> Wait a minute and restart the launcher. Minekube's network occasionally takes a moment to register a new server.</li>
+            <li><b>A friend plays Bedrock</b> (phone, console, or the Windows Bedrock app). MZForge servers are Java Edition only for now.</li>
+          </ul></section>
+
+        <section id="h-branded"><h2>The .mc.mzforge.com address</h2>
+          <p>Each server reserves a name like yourname.mc.mzforge.com. It's set up on our side but isn't live yet: Minekube currently needs a manual step for every custom domain, and there's no way for us to automate it. We're working with them on that.</p>
+          <p>Until then, share the address that starts with mzf- and ends in play.minekube.net. It works today and will keep working. When the branded address goes live, you won't need to change anything or download again.</p></section>
+
+        <section id="h-world"><h2>Your world and backups</h2>
+          <p>Everything lives in the folder you unzipped: the world, settings, plugins, and mods. To back it up, stop the launcher and copy the folder. Deleting a server on this site doesn't touch those files.</p>
+          <p>Keep mzforge.properties private. It contains a secret that identifies your server to MZForge.</p></section>
+      </article>
+    </div>
+  </div>`;
+  if (anchor) $("h-" + anchor)?.scrollIntoView();
+}
+
+router();
 </script>
 </body>
 </html>
